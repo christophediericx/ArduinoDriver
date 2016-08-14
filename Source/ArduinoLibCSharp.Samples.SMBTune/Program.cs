@@ -54,11 +54,6 @@ namespace ArduinoLibCSharp.Samples.SMBTune
         {
             var driver = new ArduinoDriver.ArduinoDriver(true);
 
-            const byte pin = 8;
-            driver.Send(new ToneRequest(pin, 200, 1000));
-            // Thread.Sleep(500);
-            // driver.Send(new NoToneRequest(pin));
-
             for (var i = 0; i < melody.Length; i++)
             {
                 var noteDuration = 1000 / tempo[i];
