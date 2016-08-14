@@ -20,7 +20,7 @@ For this to work, the C# ArduinoDriver library implements a serial communication
 The protocol supports:
 * Handshaking and version negotation
 * High speed communication
-* Fault tolerance and error correction (fletcher-16 checksums)
+* Fault tolerance and error detection (fletcher-16 checksums)
 * Automated deployment of the listener code to the Arduino
 
 ### ArduinoUploader (library) ###
