@@ -22,5 +22,9 @@ The protocol supports:
 * Automated deployment of the listener code to the Arduino through interacting with the Arduino's bootloader protocol
 
 ### ArduinoUploader (library) ###
-### ArduinoSketchUploader (command line utility) ###
+
+The *ArduinoUploader* library talks to the Arduino's bootloader directly through a dialect of the STK-500 protocol in order to flash the devices memory with the contents of an Intel HEX file.
+
+The solution comes with a seperate *ArduinoSketchUploader* command line utility which can be used to directly upload compiled sketch programs to the Arduino from C# without requiring interaction from the Arduino IDE or AVRDude.
+
 ### Sample Code: Super Mario Bros "Underworld" theme
