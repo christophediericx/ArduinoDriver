@@ -18,7 +18,7 @@ namespace ArduinoLibCSharp.ArduinoDriver
     /// </summary>
     public class ArduinoDriver
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private const int CurrentProtocolMajorVersion = 1;
         private const int CurrentProtocolMinorVersion = 0;
         private const int GraceTimeAfterArduinoAutoBootStrap = 5000;
@@ -33,7 +33,7 @@ namespace ArduinoLibCSharp.ArduinoDriver
         /// <param name="autoBootstrap"></param>
         public ArduinoDriver(bool autoBootstrap = false)
         {
-            Logger.Info("Instantiating ArduinoDriver with autoconfiguration of port name...");
+            logger.Info("Instantiating ArduinoDriver with autoconfiguration of port name...");
             var possiblePortNames = SerialPort.GetPortNames();
             string unambiguous = null;
             try
@@ -89,16 +89,16 @@ namespace ArduinoLibCSharp.ArduinoDriver
 
         private void Initialize(string portName, bool autoBootStrap)
         {
-            Logger.Info("Instantiating ArduinoDriver for port {0}...", portName);
+            logger.Info("Instantiating ArduinoDriver for port {0}...", portName);
             port = new ArduinoDriverSerialPort(portName, 115200);
             port.Open();
 
-            Logger.Info("Initiating handshake...");
+            logger.Info("Initiating handshake...");
             var response = port.Send(new HandShakeRequest());
             var handshakeResponse = response as HandShakeResponse;
             if (handshakeResponse == null)
             {
-                Logger.Info("Received null for handshake (timeout?).");
+                logger.Info("Received null for handshake (timeout?).");
                 if (!autoBootStrap)
                     throw new IOException(
                         string.Format(
@@ -109,26 +109,26 @@ namespace ArduinoLibCSharp.ArduinoDriver
             }
             else
             {
-                Logger.Info("Handshake ACK Received ... checking if we need to upgrade!");
+                logger.Info("Handshake ACK Received ... checking if we need to upgrade!");
                 const float currentVersion = (float)CurrentProtocolMajorVersion + (float)CurrentProtocolMinorVersion / 10;
                 var listenerVersion = handshakeResponse.ProtocolMajorVersion + (float)handshakeResponse.ProtocolMinorVersion / 10;
-                Logger.Info("Current ArduinoDriver C# Protocol: {0}.", currentVersion);
-                Logger.Info("Arduino Listener Protocol Version: {0}.", listenerVersion);
+                logger.Info("Current ArduinoDriver C# Protocol: {0}.", currentVersion);
+                logger.Info("Arduino Listener Protocol Version: {0}.", listenerVersion);
                 var upgradeNeeded = currentVersion > listenerVersion;
-                Logger.Info("Upgrade neede: {0}", upgradeNeeded);
+                logger.Info("Upgrade neede: {0}", upgradeNeeded);
                 if (upgradeNeeded) ExecuteAutoBootStrap();
             }            
         }
 
         private void ExecuteAutoBootStrap()
         {
-            Logger.Info("Executing AutoBootStrap!");
-            Logger.Info("Deploying protocol version {0}.{1}.", CurrentProtocolMajorVersion, CurrentProtocolMinorVersion);
+            logger.Info("Executing AutoBootStrap!");
+            logger.Info("Deploying protocol version {0}.{1}.", CurrentProtocolMajorVersion, CurrentProtocolMinorVersion);
             var portName = port.PortName;
-            Logger.Debug("Closing port {0}...", portName);
+            logger.Debug("Closing port {0}...", portName);
             port.Close();
 
-            Logger.Debug("Reading internal resource stream with Arduino Listener HEX file...");
+            logger.Debug("Reading internal resource stream with Arduino Listener HEX file...");
             var assembly = Assembly.GetExecutingAssembly();
             var textStream = assembly.GetManifestResourceStream(ArduinoListenerHexResourceFileName);
             if (textStream == null) throw new IOException("Unable to configure auto bootstrap, embedded resource missing!");
@@ -136,14 +136,14 @@ namespace ArduinoLibCSharp.ArduinoDriver
             using (var reader = new StreamReader(textStream))
                 while (reader.Peek() >= 0) hexFileContents.Add(reader.ReadLine());
 
-            Logger.Debug("Uploading HEX file...");
+            logger.Debug("Uploading HEX file...");
             var uploader = new ArduinoSketchUploader(new ArduinoSketchUploaderOptions
             {
                 PortName = portName
             });
             uploader.UploadSketch(hexFileContents);
 
-            Logger.Debug("Reopening port {0}...", portName);
+            logger.Debug("Reopening port {0}...", portName);
             port.Open();
 
             // Now wait a bit, the Arduino might still be restarting!
@@ -153,7 +153,7 @@ namespace ArduinoLibCSharp.ArduinoDriver
             var response = port.Send(new HandShakeRequest());
             var handshakeResponse = response as HandShakeResponse;
             if (handshakeResponse == null) throw new IOException("Unable to get a handshake ACK after executing auto bootstrap on the Arduino!");
-            Logger.Info("Arduino (auto)bootstrapped succesfully!");
+            logger.Info("Arduino (auto)bootstrapped succesfully!");
         }
 
         #endregion

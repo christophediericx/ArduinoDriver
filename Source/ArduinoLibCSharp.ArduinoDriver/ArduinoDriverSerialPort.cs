@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
@@ -12,37 +11,37 @@ namespace ArduinoLibCSharp.ArduinoDriver
 {
     internal class ArduinoDriverSerialPort : SerialPort
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly object _serialDataIncoming;
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private readonly object serialDataIncoming;
         private const int ReceiveTimeOut = 1000;
         private const int MaxSendRetries = 5;
         private const int MaxSyncRetries = 10;
-        private int _numberOfBytesToRead;
+        private int numberOfBytesToRead;
 
         internal ArduinoDriverSerialPort(string portName, int baudRate)
             : base(portName, baudRate)
         {
-            _serialDataIncoming = new object();
+            serialDataIncoming = new object();
             DataReceived += OnDataReceived;
         }
 
         private void OnDataReceived(object sender, SerialDataReceivedEventArgs serialDataReceivedEventArgs)
         {
             var availableBytes = BytesToRead;
-            if (availableBytes < _numberOfBytesToRead) return;
-            lock (_serialDataIncoming)
+            if (availableBytes < numberOfBytesToRead) return;
+            lock (serialDataIncoming)
             {
-                Monitor.Pulse(_serialDataIncoming);
+                Monitor.Pulse(serialDataIncoming);
             }
         }
 
         private bool GetSync()
         {
             var bytes = CommandConstants.SyncBytes;
-            _numberOfBytesToRead = 4;
+            numberOfBytesToRead = 4;
             Write(bytes, 0, bytes.Length);
-            WaitForBytes(_numberOfBytesToRead);
-            var responseBytes = ReadCurrentReceiveBuffer(_numberOfBytesToRead);
+            WaitForBytes(numberOfBytesToRead);
+            var responseBytes = ReadCurrentReceiveBuffer(numberOfBytesToRead);
             return responseBytes.Length == 4
                    && responseBytes[0] == bytes[3]
                    && responseBytes[1] == bytes[2]
@@ -53,10 +52,10 @@ namespace ArduinoLibCSharp.ArduinoDriver
         private bool ExecuteCommandHandShake(byte command, byte length)
         {
             var bytes = new byte[] {0xfb, command, length};
-            _numberOfBytesToRead = 3;
+            numberOfBytesToRead = 3;
             Write(bytes, 0, bytes.Length);
-            WaitForBytes(_numberOfBytesToRead);
-            var responseBytes = ReadCurrentReceiveBuffer(_numberOfBytesToRead);
+            WaitForBytes(numberOfBytesToRead);
+            var responseBytes = ReadCurrentReceiveBuffer(numberOfBytesToRead);
             return responseBytes.Length == 3
                    && responseBytes[0] == bytes[2]
                    && responseBytes[1] == bytes[1]
@@ -65,10 +64,10 @@ namespace ArduinoLibCSharp.ArduinoDriver
 
         private void WaitForBytes(int numberOfBytes)
         {
-            _numberOfBytesToRead = numberOfBytes;
-            lock (_serialDataIncoming)
+            numberOfBytesToRead = numberOfBytes;
+            lock (serialDataIncoming)
             {
-                if (!Monitor.Wait(_serialDataIncoming, ReceiveTimeOut))
+                if (!Monitor.Wait(serialDataIncoming, ReceiveTimeOut))
                     throw new TimeoutException();
             }            
         }
@@ -85,12 +84,12 @@ namespace ArduinoLibCSharp.ArduinoDriver
                     var syncRetries = 0;
                     while (!(hasSync = GetSync()) && syncRetries++ < MaxSyncRetries - 1)
                     {
-                        Logger.Debug("Unable to get sync ... trying again ({0}/{1}).", syncRetries, MaxSyncRetries);
+                        logger.Debug("Unable to get sync ... trying again ({0}/{1}).", syncRetries, MaxSyncRetries);
                     }
                     if (!hasSync)
                     {
                         var errorMessage = string.Format("Unable to get sync after {0} tries!", MaxSyncRetries);
-                        Logger.Fatal(errorMessage);
+                        logger.Fatal(errorMessage);
                         throw new IOException(errorMessage);
                     }
 
@@ -102,7 +101,7 @@ namespace ArduinoLibCSharp.ArduinoDriver
                     if (!ExecuteCommandHandShake(request.Command, (byte)requestBytesLength))
                     {
                         var errorMessage = string.Format("Unable to configure command handshake for command {0}.", request);
-                        Logger.Fatal(errorMessage);
+                        logger.Fatal(errorMessage);
                         throw new IOException(errorMessage);
                     }
 
@@ -131,31 +130,31 @@ namespace ArduinoLibCSharp.ArduinoDriver
 
                     // Expect response message to drop to be received in the following form:
                     // F9 (start of response marker) followed by response length
-                    _numberOfBytesToRead = 2;
-                    WaitForBytes(_numberOfBytesToRead);
-                    var responseBytes = ReadCurrentReceiveBuffer(_numberOfBytesToRead);
+                    numberOfBytesToRead = 2;
+                    WaitForBytes(numberOfBytesToRead);
+                    var responseBytes = ReadCurrentReceiveBuffer(numberOfBytesToRead);
                     var startOfResponseMarker = responseBytes[0];
                     var responseLength = responseBytes[1];
                     if (startOfResponseMarker != CommandConstants.StartOfResponseMarker)
                     {
                         var errorMessage = string.Format("Did not receive start of response marker but {0}!", startOfResponseMarker);
-                        Logger.Fatal(errorMessage);
+                        logger.Fatal(errorMessage);
                         throw new IOException(errorMessage);
                     }
 
                     // Read x responsebytes
-                    _numberOfBytesToRead = responseLength;
-                    if (BytesToRead < _numberOfBytesToRead) WaitForBytes(_numberOfBytesToRead);
-                    responseBytes = ReadCurrentReceiveBuffer(_numberOfBytesToRead);
+                    numberOfBytesToRead = responseLength;
+                    if (BytesToRead < numberOfBytesToRead) WaitForBytes(numberOfBytesToRead);
+                    responseBytes = ReadCurrentReceiveBuffer(numberOfBytesToRead);
                     return ArduinoResponse.Create(responseBytes);
                 }
                 catch (TimeoutException ex)
                 {
-                    Logger.Debug("TimeoutException in Send occurred, retrying ({0}/{1})!", sendRetries, MaxSendRetries);
+                    logger.Debug("TimeoutException in Send occurred, retrying ({0}/{1})!", sendRetries, MaxSendRetries);
                 }
                 catch (Exception ex)
                 {
-                    Logger.Debug(ex, "General exception in Send occurred, retrying ({0}/{1})!", sendRetries, MaxSendRetries);
+                    logger.Debug(ex, "General exception in Send occurred, retrying ({0}/{1})!", sendRetries, MaxSendRetries);
                 }                
             }
             return null;
