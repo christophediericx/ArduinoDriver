@@ -5,8 +5,9 @@ ArduinoLibCSharp is a comprehensive library for controlling an Arduino board dir
 
 ## Components ##
 
-### 1. ArduinoDriver (library)###
-An ArduinoDriver instance is used to send commands to an attached Arduino. These commands are fully equivalent to the ones present in the Arduino Language libraries itself (e.g. read / write analog and digital outputs, send tone etc...).
-### 2. ArduinoUploader (library) ###
-### 3. ArduinoSketchUploader (command line utility) ###
-### 4. Sample Code: Super Mario Bros "Underworld" theme
+### ArduinoDriver (library)###
+An instance of an ArduinoDriver can be created in order to communicate with an attached Arduino. The commands available are fully functionally equivalent to the ones present in the Arduino Language libraries itself (read / write analog and digital outputs, send tone ,...). This makes that most Arduino snippets online can be very easily adapted to work with the ArduinoDriver.
+
+### ArduinoUploader (library) ###
+### ArduinoSketchUploader (command line utility) ###
+### Sample Code: Super Mario Bros "Underworld" theme
