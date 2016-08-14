@@ -17,13 +17,13 @@ For this to work, the C# ArduinoDriver library implements a serial communication
 
 The protocol supports:
 * Handshaking and version negotation
-* High speed communication (baud rate: 115200)
-* Fault tolerance and error correction (Fletcher 16 checksums)
+* High speed communication
+* Fault tolerance and error correction (fletcher-16 checksums)
 * Automated deployment of the listener code to the Arduino
 
 ### ArduinoUploader (library) ###
 
-The *ArduinoUploader* library talks to the Arduino's bootloader directly through a dialect of the STK-500 protocol in order to flash the devices memory with the contents of an Intel HEX file.
+The *ArduinoUploader* library talks to the Arduino's bootloader directly through a dialect of the STK-500 protocol in order to flash the memory on the device with the contents of an Intel HEX file.
 
 The solution comes with a seperate **ArduinoSketchUploader** command line utility which can be used to upload compiled sketch programs to the Arduino directly without requiring interaction from the Arduino IDE or AVRDude.
 
@@ -31,4 +31,5 @@ The solution comes with a seperate **ArduinoSketchUploader** command line utilit
 
 In a sample project, the above libraries are used to play this retro tune directly from within Visual Studio.
 
-**Compatibility note:** Currently, this library has only been tested with *UNO* based Arduino boards (simply because I don't have access to other boards). It is expected that tweaking of hardware constants needs to be done in the STK500-driven communication in order to support other architectures.
+
+> Compatibility note: As of now, this library has only been tested with *UNO* based Arduino boards (simply because I don't have access to other boards). It is expected that tweaking of hardware constants needs to be done in the STK500-driven communication in order to support other architectures.
