@@ -3,6 +3,8 @@ ArduinoLibCSharp is a library for controlling an Arduino board directly with C# 
 
 ![ArduinoLibCSharp](https://github.com/christophediericx/ArduinoLibCSharp/blob/master/Images/ArduinoLibCSharp-header-color.png)
 
+> *Compatibility note: This library has only been tested with *UNO* based Arduino boards (I don't have access to other boards). It is expected that tweaking of hardware constants needs to be done in the STK500-driven communication in order to support other Arduino architectures.
+
 ## Components ##
 
 ### ArduinoDriver (library)###
@@ -30,6 +32,3 @@ The solution comes with a seperate **ArduinoSketchUploader** command line utilit
 ### Sample Code: Playing the Super Mario Bros "Underworld" theme
 
 In a sample project, the above libraries are used to play this retro tune directly from within Visual Studio.
-
-
-> Compatibility note: As of now, this library has only been tested with *UNO* based Arduino boards (simply because I don't have access to other boards). It is expected that tweaking of hardware constants needs to be done in the STK500-driven communication in order to support other architectures.
