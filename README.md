@@ -5,7 +5,7 @@ ArduinoLibCSharp is a comprehensive library for controlling an Arduino board dir
 
 ## Components ##
 
-### 1. Library: ArduinoDriver ###
-### 2. Library: ArduinoUploader ###
-### 3. Command line utility: ArduinoSketchUploader ###
+### 1. ArduinoDriver (library)###
+### 2. ArduinoUploader (library) ###
+### 3. ArduinoSketchUploader (command line utility) ###
 ### 4. Sample Code: Super Mario Bros "Underworld" theme
