@@ -13,7 +13,12 @@ An *ArduinoDriver* can be created in order to communicate with an attached Ardui
     var driver = new ArduinoDriver(true);
     driver.Send(new ToneRequest(pin, 200, 1000));
 ```
-For this to work, the ArduinoDriver implements a serial communication protocol with a listener [ArduinoListener.ino](Source/ArduinoLibCSharp.ArduinoDriver/ArduinoListener/ArduinoListener.ino), which can be automatically deployed on the attached Arduino.
+For this to work, the C# ArduinoDriver library implements a serial communication protocol with a corresponding listener for the Arduino ([ArduinoListener.ino](Source/ArduinoLibCSharp.ArduinoDriver/ArduinoListener/ArduinoListener.ino)).
+
+The protocol supports:
+* Handshaking and version negotation
+* Fault tolerance / Error correction (through Fletcher 16 checksums)
+* Automated deployment of the listener code to the Arduino through interacting with the Arduino's bootloader protocol.
 
 ### ArduinoUploader (library) ###
 ### ArduinoSketchUploader (command line utility) ###
