@@ -8,7 +8,7 @@ ArduinoLibCSharp is a library for controlling an Arduino board directly with C# 
 ## Components ##
 
 ### ArduinoDriver (library)###
-An *ArduinoDriver* can be created in order to communicate with an attached board (through sending messages). The available commands are mimicking the functions in the Arduino Language libraries itself (analog and digital reads / writes, set pinmodes, send tone / notone ,...) so most Arduino snippets found online can be directly ported to work with the ArduinoDriver instead.
+An *ArduinoDriver* can be created in order to communicate with an attached board (through sending messages). The available commands are mimicking the functions in the Arduino Language libraries itself (analog and digital reads / writes, set pinmodes, send tone,...) so most Arduino snippets found online can be directly ported to work with the ArduinoDriver instead.
 
 ```csharp
     const byte pin = 8;
@@ -27,7 +27,7 @@ The protocol supports:
 
 The *ArduinoUploader* library talks to the Arduino's bootloader directly through a dialect of the STK-500 protocol in order to flash the memory on the device with the contents of an Intel HEX file.
 
-The solution comes with a seperate **ArduinoSketchUploader** command line utility which can be used to upload compiled sketch programs to the Arduino directly without requiring interaction from the Arduino IDE.
+The solution comes with a seperate **ArduinoSketchUploader** command line utility which can be used to upload compiled sketch programs to the Arduino directly without requiring interaction from the Arduino IDE. It's fully self-contained and not just a wrapper for avrdude.
 
 ### Sample Code: Playing the Super Mario Bros "Underworld" theme
 
