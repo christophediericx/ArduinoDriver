@@ -29,7 +29,7 @@ namespace ArduinoLibCSharp.IntelHexFormatReader.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void HexFileReaderThrowsExceptionWhenHexFileContentsIsNull()
         {
-            var reader = new HexFileReader(null, 0);
+            var reader = new HexFileReader(new List<string>(), 0);
         }
 
         [TestMethod]

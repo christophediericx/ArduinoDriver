@@ -35,7 +35,7 @@ namespace ArduinoLibCSharp.IntelHexFormatReader
         {
             var result = new MemoryBlock { Cells = new MemoryCell[memorySize] };
             for (var i = 0; i < memorySize; i++)
-                result.Cells[i] = new MemoryCell() {Value = 0xff};
+                result.Cells[i] = new MemoryCell(i) {Value = 0xff};
 
             var lineNumber = 0;
             var baseAddress = 0;
