@@ -2,6 +2,8 @@
 
 ### IntelHexFormatReader (library) ###
 
+A library to parse the contents of [an Intel HEX file](https://en.wikipedia.org/wiki/Intel_HEX) into a representative "memory representation".
+
 #### How to use ####
 
 Link the following nuget package in your project in order to use the Intel Hex format file reader: https://www.nuget.org/packages/ArduinoLibCSharp.IntelHexFormatReader/
