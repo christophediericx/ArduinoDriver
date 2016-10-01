@@ -13,7 +13,7 @@ It consists of the following .NET libraries / assemblies:
   [(View Documentation)](Documentation/ArduinoUploader.md)
   * **IntelHexFormatReader**: A library to parse the contents of [an Intel HEX file](https://en.wikipedia.org/wiki/Intel_HEX) into a representative "memory representation".
   
-  [(View Documentation)](Documentation/IntelHexFormatReader.md) 
+  [(View Documentation)](Documentation/IntelHexFormatReader.md) [(nuget package)](https://www.nuget.org/packages/ArduinoLibCSharp.IntelHexFormatReader/)
 
 and the following command line applications:
 
