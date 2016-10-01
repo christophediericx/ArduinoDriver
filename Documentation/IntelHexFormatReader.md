@@ -32,4 +32,4 @@ namespace IntelHexFormatReaderDemo
     }
 }
 ```
-HexFileReader has 2 constructors (with one accepting a filename, and another accepting an IEnumerable<string> if you would rather pass in content directly).
+HexFileReader has 2 constructors (with one accepting a filename as first argument, and another accepting an IEnumerable<string> as first argument). The second argument is the memory size the HEX file it to be applied to.
