@@ -1,6 +1,16 @@
 # ArduinoLibCSharp
 ArduinoLibCSharp is a library for controlling an Arduino board directly with C# / Visual Studio.
 
+.NET assemblies:
+
+  * **ArduinoDriver**: A library to easily connect, drive and debug an Arduino from within Visual Studio (through a highly *syntax compatible* implementation running over the serial connection - at high speed, with automatic error detection and correction).
+  * **ArduinoUploader**: A library to upload an Intel HEX file (e.g. compiled sketches) directly to an Arduino over a (USB) serial port without having to use the Arduino IDE (or avrdude).
+  * **IntelHexFormatReader**: Parse the contents of a HEX file into a representative "memory representation".
+
+Command line applications:
+
+  * **ArduinoSketchUploader**
+
 ![ArduinoLibCSharp](https://github.com/christophediericx/ArduinoLibCSharp/blob/master/Images/ArduinoLibCSharp-header-color.png)
 
 > *Compatibility note: This library has only been tested with UNO based Arduino boards. It is expected that tweaking of hardware constants in the STK-500 bootloader communication is required in order to support other architectures.*
