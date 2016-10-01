@@ -13,11 +13,11 @@
     <releaseNotes></releaseNotes>
     <copyright></copyright>
     <tags>arduino upload serial avr flash hex</tags>
-  </metadata>
+	<dependencies>
+	  <dependency id="ArduinoLibCSharp.IntelHexFormatReader" version="1.0.0" />
+	</dependencies>  
+	</metadata>
   <files>
 	<file src="bin\$configuration$\ArduinoLibCSharp.ArduinoUploader.dll" target="lib\net40\" />
   </files>
-  <dependencies>
-	<dependency id="ArduinoLibCSharp.IntelHexFormatReader" version="1.0.0" />
-  </dependencies>  
 </package>

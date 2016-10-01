@@ -20,6 +20,5 @@ mkdir Build
 mkdir Build\lib
 mkdir Build\lib\net40
 
-%nuget% pack "Source\ArduinoLibCSharp.ArduinoUploader\ArduinoLibCSharp.ArduinoUploader.nuspec" -NoPackageAnalysis -verbosity detailed -o Build -Version %version% -p Configuration="%config%"
-
 %nuget% pack "Source\ArduinoLibCSharp.IntelHexFormatReader\ArduinoLibCSharp.IntelHexFormatReader.nuspec" -NoPackageAnalysis -verbosity detailed -o Build -Version %version% -p Configuration="%config%"
+%nuget% pack "Source\ArduinoLibCSharp.ArduinoUploader\ArduinoLibCSharp.ArduinoUploader.nuspec" -NoPackageAnalysis -verbosity detailed -o Build -Version %version% -p Configuration="%config%"
