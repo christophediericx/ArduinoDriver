@@ -11,7 +11,7 @@ It consists of the following .NET libraries / assemblies:
   * **ArduinoUploader**: A library to upload an Intel HEX file (e.g. compiled sketches) directly to an Arduino over a (USB) serial port without having to use the Arduino IDE (or avrdude).
   
   [(View Documentation)](Documentation/ArduinoUploader.md)
-  * **IntelHexFormatReader**: A library to parse the contents of a HEX file into a representative "memory representation". 
+  * **IntelHexFormatReader**: A library to parse the contents of [an Intel HEX file](https://en.wikipedia.org/wiki/Intel_HEX) into a representative "memory representation".
   
   [(View Documentation)](Documentation/IntelHexFormatReader.md) 
 
