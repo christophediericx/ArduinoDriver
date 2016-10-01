@@ -13,6 +13,11 @@ namespace ArduinoLibCSharp.IntelHexFormatReader
         private readonly IEnumerable<string> hexFileContents;
         private readonly int memorySize;
 
+        public HexFileReader(string fileName, int memorySize) 
+            : this (File.ReadLines(fileName), memorySize)
+        {
+        }
+
         public HexFileReader(IEnumerable<string> hexFileContents, int memorySize)
         {
             if (hexFileContents == null) throw new ArgumentException("Hex file contents can not be null!");
