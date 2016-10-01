@@ -69,6 +69,7 @@
     <Compile Include="UploaderLogger.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ArduinoLibCSharp.ArduinoUploader.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
