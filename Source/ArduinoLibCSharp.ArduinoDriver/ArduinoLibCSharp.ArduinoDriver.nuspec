@@ -15,6 +15,7 @@
     <tags>arduino serial communication protocol</tags>
     <dependencies>
       <dependency id="ArduinoLibCSharp.ArduinoUploader" version="1.0.0" />
+	  <dependency id="NLog" version="4.0.0" />
     </dependencies>  	
   </metadata>
   <files>
