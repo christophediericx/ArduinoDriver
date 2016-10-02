@@ -25,7 +25,7 @@ mkdir Build\lib\net40
 echo -- Packaging...
 
 echo -- Package ArduinoUploader...
-%nuget% pack "Source\ArduinoLibCSharp.ArduinoUploader\ArduinoLibCSharp.ArduinoUploader.nuspec" -NoPackageAnalysis -verbosity detailed -o Build -Version %version% -p Configuration="%config%"
+call %nuget% pack "Source\ArduinoLibCSharp.ArduinoUploader\ArduinoLibCSharp.ArduinoUploader.nuspec" -NoPackageAnalysis -verbosity detailed -o Build -Version %version% -p Configuration="%config%"
 
 echo -- Package IntelHexFormatReader...
-%nuget% pack "Source\ArduinoLibCSharp.IntelHexFormatReader\ArduinoLibCSharp.IntelHexFormatReader.nuspec" -NoPackageAnalysis -verbosity detailed -o Build -Version %version% -p Configuration="%config%"
+call %nuget% pack "Source\ArduinoLibCSharp.IntelHexFormatReader\ArduinoLibCSharp.IntelHexFormatReader.nuspec" -NoPackageAnalysis -verbosity detailed -o Build -Version %version% -p Configuration="%config%"
