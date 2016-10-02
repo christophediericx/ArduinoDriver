@@ -7,7 +7,7 @@ It consists of the following .NET libraries / assemblies:
 
   * **ArduinoDriver**: A library to easily connect, drive (and debug) an Arduino from within Visual Studio (through a highly *syntax compatible* implementation running over the serial connection - at high speed). 
   
-  [(View Documentation)](Documentation/ArduinoDriver.md) 
+  [(View Documentation)](Documentation/ArduinoDriver.md) [(nuget package)](https://www.nuget.org/packages/ArduinoLibCSharp.ArduinoDriver/)
   * **ArduinoUploader**: A library to upload an Intel HEX file (e.g. compiled sketches) directly to an Arduino over a (USB) serial port without having to use the Arduino IDE (or avrdude).
   
   [(View Documentation)](Documentation/ArduinoUploader.md) [(nuget package)](https://www.nuget.org/packages/ArduinoLibCSharp.ArduinoUploader/)
