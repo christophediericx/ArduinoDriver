@@ -29,3 +29,6 @@ call %nuget% pack "Source\ArduinoLibCSharp.ArduinoUploader\ArduinoLibCSharp.Ardu
 
 echo -- Package IntelHexFormatReader...
 call %nuget% pack "Source\ArduinoLibCSharp.IntelHexFormatReader\ArduinoLibCSharp.IntelHexFormatReader.nuspec" -NoPackageAnalysis -verbosity detailed -o Build -Version %version% -p Configuration="%config%"
+
+echo -- Package ArduinoDriver...
+call %nuget% pack "Source\ArduinoLibCSharp.ArduinoDriver\ArduinoLibCSharp.ArduinoDriver.nuspec" -NoPackageAnalysis -verbosity detailed -o Build -Version %version% -p Configuration="%config%"

@@ -83,6 +83,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ArduinoLibCSharp.ArduinoDriver.nuspec" />
     <None Include="ArduinoListener\ArduinoListener.ino" />
     <EmbeddedResource Include="ArduinoListener\ArduinoListener.ino.hex" />
     <None Include="packages.config" />
