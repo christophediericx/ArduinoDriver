@@ -8,7 +8,8 @@ using ArduinoLibCSharp.ArduinoUploader.ArduinoSTK500Protocol;
 using ArduinoLibCSharp.ArduinoUploader.ArduinoSTK500Protocol.CommandConstants;
 using ArduinoLibCSharp.ArduinoUploader.ArduinoSTK500Protocol.HardwareConstants;
 using ArduinoLibCSharp.ArduinoUploader.ArduinoSTK500Protocol.Messages;
-using ArduinoLibCSharp.IntelHexFormatReader;
+using IntelHexFormatReader;
+using IntelHexFormatReader.Model;
 using NLog;
 
 namespace ArduinoLibCSharp.ArduinoUploader

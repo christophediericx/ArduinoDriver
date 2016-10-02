@@ -150,7 +150,7 @@ namespace ArduinoLibCSharp.ArduinoDriver
                 }
                 catch (TimeoutException ex)
                 {
-                    logger.Debug("TimeoutException in Send occurred, retrying ({0}/{1})!", sendRetries, MaxSendRetries);
+                    logger.Debug(ex, "TimeoutException in Send occurred, retrying ({0}/{1})!", sendRetries, MaxSendRetries);
                 }
                 catch (Exception ex)
                 {
