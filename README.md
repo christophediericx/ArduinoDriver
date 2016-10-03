@@ -1,6 +1,6 @@
 # ArduinoDriver
 
-A library to easily connect, drive (and debug) an Arduino from within Visual Studio (through a highly syntax compatible implementation running over the serial connection - at high speed).
+A .NET library to easily connect, drive (and debug) an Arduino (through a highly syntax compatible implementation running over the serial connection - at high speed).
 
 ![ArduinoDriver](https://github.com/christophediericx/ArduinoLibCSharp/blob/master/Images/ArduinoLibCSharp-header-color.png)
 
