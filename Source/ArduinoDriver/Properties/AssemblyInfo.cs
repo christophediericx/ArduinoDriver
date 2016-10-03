@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ArduinoLibCSharp.ArduinoUploader")]
+[assembly: AssemblyTitle("ArduinoDriver")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ArduinoLibCSharp.ArduinoUploader")]
+[assembly: AssemblyProduct("ArduinoDriver")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("48dffd97-844f-4129-a8cb-4059f7f435bf")]
+[assembly: Guid("23bc4b2a-41e3-490a-b6ce-b44a964b9ac3")]
 
 // Version information for an assembly consists of the following four values:
 //

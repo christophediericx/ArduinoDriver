@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using ArduinoLibCSharp.ArduinoDriver.SerialProtocol;
-using ArduinoLibCSharp.ArduinoUploader;
+using ArduinoUploader;
 using NLog;
 
 namespace ArduinoLibCSharp.ArduinoDriver

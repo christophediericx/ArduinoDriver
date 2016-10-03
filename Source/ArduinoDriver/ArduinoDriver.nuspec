@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>ArduinoLibCSharp.ArduinoDriver</id>
+    <id>ArduinoDriver</id>
     <version>$version$</version>
-    <title>ArduinoLibCSharp ArduinoDriver</title>
+    <title>ArduinoDriver</title>
     <authors>Christophe Diericx</authors>
     <owners>Christophe Diericx</owners>
-    <projectUrl>https://github.com/christophediericx/ArduinoLibCSharp</projectUrl>
+    <projectUrl>https://github.com/christophediericx/ArduinoDriver</projectUrl>
     <iconUrl>https://avatars3.githubusercontent.com/u/19640854?s=140</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Library to connect, drive and debug an Arduino (UNO) directly from within Visual Studio (through the USB serial connection).</description>
@@ -14,11 +14,11 @@
     <copyright></copyright>
     <tags>arduino serial communication protocol</tags>
     <dependencies>
-      <dependency id="ArduinoLibCSharp.ArduinoUploader" version="1.0.0" />
+      <dependency id="ArduinoUploader" version="1.0.0" />
 	  <dependency id="Nlog" version="4.0.0" />
     </dependencies>  	
   </metadata>
   <files>
-	<file src="bin\$configuration$\ArduinoLibCSharp.ArduinoDriver.dll" target="lib\net40\" />
+	<file src="bin\$configuration$\ArduinoDriver.dll" target="lib\net40\" />
   </files>
 </package>

@@ -7,8 +7,8 @@
     <ProjectGuid>{1FE32CD3-938F-40A7-B0A5-75CF0A7254D7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ArduinoLibCSharp.ArduinoDriver</RootNamespace>
-    <AssemblyName>ArduinoLibCSharp.ArduinoDriver</AssemblyName>
+    <RootNamespace>ArduinoDriver</RootNamespace>
+    <AssemblyName>ArduinoDriver</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ArduinoUploader">
+      <HintPath>..\packages\ArduinoUploader.1.0.0\lib\net45\ArduinoUploader.dll</HintPath>
+    </Reference>
+    <Reference Include="IntelHexFormatReader">
+      <HintPath>..\packages\IntelHexFormatReader.1.0.0\lib\net45\IntelHexFormatReader.dll</HintPath>
+    </Reference>
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.4.3.3\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -86,12 +92,6 @@
     <None Include="ArduinoListener\ArduinoListener.ino" />
     <EmbeddedResource Include="ArduinoListener\ArduinoListener.ino.hex" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ArduinoLibCSharp.ArduinoUploader\ArduinoLibCSharp.ArduinoUploader.csproj">
-      <Project>{F6FD5F7B-1ED6-4327-B69D-9FAF384F1A5D}</Project>
-      <Name>ArduinoLibCSharp.ArduinoUploader</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

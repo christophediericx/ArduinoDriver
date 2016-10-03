@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ArduinoLibCSharp.SketchUploader")]
+[assembly: AssemblyTitle("ArduinoDriver.Samples.SMBTune")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ArduinoLibCSharp.SketchUploader")]
+[assembly: AssemblyProduct("ArduinoDriver.Samples.SMBTune")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ff716b8b-dde4-4491-bdb2-1ba87cf85a1e")]
+[assembly: Guid("0c4ab773-488f-48a1-ad48-38a59c13b713")]
 
 // Version information for an assembly consists of the following four values:
 //
