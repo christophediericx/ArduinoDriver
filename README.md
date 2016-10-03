@@ -4,7 +4,7 @@ A .NET library to easily connect, drive (and debug) an Arduino (through a highly
 
 ![ArduinoDriver](https://github.com/christophediericx/ArduinoLibCSharp/blob/master/Images/ArduinoLibCSharp-header-color.png)
 
-> *Compatibility note: This library has only been tested with UNO based Arduino boards. It is expected that tweaking of hardware constants in the STK-500 bootloader communication is required in order to support other architectures.*
+> *Compatibility note: This library has only been tested with UNO (ATMega328P) based Arduino boards. It is expected that tweaking of hardware constants in the STK-500 bootloader communication is required in order to support other architectures.*
 
 ## How to use the .NET library ##
 
