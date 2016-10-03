@@ -13,8 +13,6 @@ It consists of the following .NET libraries / assemblies:
   [(View Documentation)](Documentation/ArduinoUploader.md) [(nuget package)](https://www.nuget.org/packages/ArduinoLibCSharp.ArduinoUploader/)
   * **IntelHexFormatReader**: A library to parse the contents of [an Intel HEX file](https://en.wikipedia.org/wiki/Intel_HEX) into a representative "memory representation".
   
-  [(View Documentation)](Documentation/IntelHexFormatReader.md) [(nuget package)](https://www.nuget.org/packages/ArduinoLibCSharp.IntelHexFormatReader/)
-
 and the following command line applications:
 
   * **ArduinoSketchUploader**: A command line utility to flash a HEX file directly to an Arduino (UNO) board.
