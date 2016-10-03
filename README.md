@@ -48,3 +48,5 @@ The protocol supports:
 ## Sample Code: Super Mario Bros "Underworld" theme ##
 
 This sample project uses the library above to play this classic retro tune on an arduino with C#.
+
+One pin of the buzzer should be connected to digital pin 8. The other pin should be connected to GND.
