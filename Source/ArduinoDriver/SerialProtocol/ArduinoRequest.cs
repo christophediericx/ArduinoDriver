@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ArduinoLibCSharp.ArduinoDriver.SerialProtocol
+namespace ArduinoDriver.SerialProtocol
 {
     public abstract class ArduinoRequest : ArduinoMessage
     {

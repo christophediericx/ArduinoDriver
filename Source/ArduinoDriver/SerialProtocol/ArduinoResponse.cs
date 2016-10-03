@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace ArduinoLibCSharp.ArduinoDriver.SerialProtocol
+namespace ArduinoDriver.SerialProtocol
 {
     public abstract class ArduinoResponse : ArduinoMessage
     {

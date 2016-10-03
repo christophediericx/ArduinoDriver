@@ -1,4 +1,4 @@
-﻿namespace ArduinoLibCSharp.ArduinoDriver.SerialProtocol
+﻿namespace ArduinoDriver.SerialProtocol
 {
     public abstract class ArduinoMessage
     {

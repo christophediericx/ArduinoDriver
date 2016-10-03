@@ -1,4 +1,4 @@
-﻿namespace ArduinoLibCSharp.ArduinoDriver
+﻿namespace ArduinoDriver
 {
     public enum DigitalValue
     {

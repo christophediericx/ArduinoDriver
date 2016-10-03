@@ -1,7 +1,7 @@
 ﻿using System.Threading;
-using ArduinoLibCSharp.ArduinoDriver.SerialProtocol;
+using ArduinoDriver.SerialProtocol;
 
-namespace ArduinoLibCSharp.Samples.SMBTune
+namespace ArduinoDriver.Samples.SMBTune
 {
     /// <summary>
     /// This program uses the ArduinoLibCSharp libraries to play the Super Mario Bros *Underworld* tune on a connected Arduino.
@@ -52,7 +52,7 @@ namespace ArduinoLibCSharp.Samples.SMBTune
 
         private static void Main(string[] args)
         {
-            var driver = new ArduinoDriver.ArduinoDriver(true);
+            var driver = new global::ArduinoDriver.ArduinoDriver(true);
 
             for (var i = 0; i < melody.Length; i++)
             {

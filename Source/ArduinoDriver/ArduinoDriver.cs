@@ -5,11 +5,11 @@ using System.IO.Ports;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using ArduinoLibCSharp.ArduinoDriver.SerialProtocol;
+using ArduinoDriver.SerialProtocol;
 using ArduinoUploader;
 using NLog;
 
-namespace ArduinoLibCSharp.ArduinoDriver
+namespace ArduinoDriver
 {
     /// <summary>
     /// An ArduinoDriver can be used to communicate with an attached Arduino by way of sending requests and receiving responses.

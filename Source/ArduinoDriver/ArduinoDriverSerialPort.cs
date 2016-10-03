@@ -4,10 +4,10 @@ using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading;
-using ArduinoLibCSharp.ArduinoDriver.SerialProtocol;
+using ArduinoDriver.SerialProtocol;
 using NLog;
 
-namespace ArduinoLibCSharp.ArduinoDriver
+namespace ArduinoDriver
 {
     internal class ArduinoDriverSerialPort : SerialPort
     {
