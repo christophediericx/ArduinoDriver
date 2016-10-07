@@ -25,7 +25,7 @@ namespace ArduinoDriver
         private ArduinoDriverSerialPort port;
 
         private const string ArduinoListenerHexResourceFileName =
-            "ArduinoLibCSharp.ArduinoDriver.ArduinoListener.ArduinoListener.ino.hex";
+            "ArduinoDriver.ArduinoListener.ArduinoListener.ino.hex";
 
         /// <summary>
         /// Creates a new ArduinoDriver instance. The relevant portname will be autodetected if possible.

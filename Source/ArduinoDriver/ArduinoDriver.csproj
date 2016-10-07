@@ -33,14 +33,15 @@
   <ItemGroup>
     <Reference Include="ArduinoUploader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ArduinoUploader.1.0.1\lib\net45\ArduinoUploader.dll</HintPath>
+      <HintPath>..\packages\ArduinoUploader.1.0.2\lib\net45\ArduinoUploader.dll</HintPath>
     </Reference>
     <Reference Include="IntelHexFormatReader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IntelHexFormatReader.2.0.0\lib\net45\IntelHexFormatReader.dll</HintPath>
+      <HintPath>..\packages\IntelHexFormatReader.2.1.0\lib\net45\IntelHexFormatReader.dll</HintPath>
     </Reference>
-    <Reference Include="NLog">
-      <HintPath>..\packages\NLog.4.3.3\lib\net45\NLog.dll</HintPath>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NLog.4.3.9\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
