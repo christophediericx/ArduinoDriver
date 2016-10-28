@@ -34,7 +34,7 @@ namespace ArduinoDriver
         public ArduinoDriver(bool autoBootstrap = false)
         {
             logger.Info("Instantiating ArduinoDriver with autoconfiguration of port name...");
-            var possiblePortNames = SerialPort.GetPortNames();
+            var possiblePortNames = SerialPort.GetPortNames().Distinct();
             string unambiguous = null;
             try
             {

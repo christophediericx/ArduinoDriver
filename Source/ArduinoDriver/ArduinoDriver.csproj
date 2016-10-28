@@ -31,9 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ArduinoUploader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ArduinoUploader, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ArduinoUploader.1.0.2\lib\net45\ArduinoUploader.dll</HintPath>
+      <HintPath>..\packages\ArduinoUploader.1.0.4\lib\net45\ArduinoUploader.dll</HintPath>
     </Reference>
     <Reference Include="IntelHexFormatReader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
