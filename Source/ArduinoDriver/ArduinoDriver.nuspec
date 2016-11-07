@@ -14,7 +14,7 @@
     <copyright></copyright>
     <tags>arduino serial communication protocol</tags>
     <dependencies>
-      <dependency id="ArduinoUploader" version="1.0.0" />
+      <dependency id="ArduinoUploader" version="2.1.0" />
 	  <dependency id="Nlog" version="4.0.0" />
     </dependencies>  	
   </metadata>

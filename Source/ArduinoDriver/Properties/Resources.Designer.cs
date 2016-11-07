@@ -63,9 +63,29 @@ namespace ArduinoDriver.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] ArduinoListener_ino {
+        internal static byte[] ArduinoListener_ino_Mega2560 {
             get {
-                object obj = ResourceManager.GetObject("ArduinoListener_ino", resourceCulture);
+                object obj = ResourceManager.GetObject("ArduinoListener_ino_Mega2560", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ArduinoListener_ino_NanoR3 {
+            get {
+                object obj = ResourceManager.GetObject("ArduinoListener_ino_NanoR3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ArduinoListener_ino_UnoR3 {
+            get {
+                object obj = ResourceManager.GetObject("ArduinoListener_ino_UnoR3", resourceCulture);
                 return ((byte[])(obj));
             }
         }

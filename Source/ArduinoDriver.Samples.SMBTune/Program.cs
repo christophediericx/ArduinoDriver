@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using ArduinoDriver.SerialProtocol;
+using ArduinoUploader.Hardware;
 
 namespace ArduinoDriver.Samples.SMBTune
 {
@@ -9,6 +10,8 @@ namespace ArduinoDriver.Samples.SMBTune
     /// Since the constructor for the ArduinoDriver is passed 'true' for autobootstrap, this will automatically deploy the listener
     /// on the Arduino itself.
     /// 
+    /// The only thing that should be changed in this program is the Arduino "model".
+    /// 
     /// One pin of the buzzer should be connected to digital pin 8 ("DigitalPinBuzzer").
     /// The other pin should be connected to GND.
     /// 
@@ -16,6 +19,9 @@ namespace ArduinoDriver.Samples.SMBTune
     /// </summary>
     internal class Program
     {
+        // ----------> CHANGE THIS!
+        private const ArduinoModel AttachedArduino = ArduinoModel.UnoR3;
+
         private const int DigitalPinBuzzer = 8;
 
         private const int D3 = 147;
@@ -52,7 +58,7 @@ namespace ArduinoDriver.Samples.SMBTune
 
         private static void Main(string[] args)
         {
-            var driver = new global::ArduinoDriver.ArduinoDriver(true);
+            var driver = new ArduinoDriver(AttachedArduino, true);
 
             for (var i = 0; i < melody.Length; i++)
             {

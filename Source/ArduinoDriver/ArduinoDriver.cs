@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading;
 using ArduinoDriver.SerialProtocol;
 using ArduinoUploader;
+using ArduinoUploader.Hardware;
 using NLog;
 
 namespace ArduinoDriver
@@ -21,43 +22,47 @@ namespace ArduinoDriver
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private const int CurrentProtocolMajorVersion = 1;
         private const int CurrentProtocolMinorVersion = 0;
-        private const int GraceTimeAfterArduinoAutoBootStrap = 5000;
+        private const int GraceTimeAfterArduinoAutoBootStrap = 3000;
         private ArduinoDriverSerialPort port;
 
         private const string ArduinoListenerHexResourceFileName =
-            "ArduinoDriver.ArduinoListener.ArduinoListener.ino.hex";
+            "ArduinoDriver.ArduinoListener.ArduinoListener.ino.{0}.hex";
 
         /// <summary>
         /// Creates a new ArduinoDriver instance. The relevant portname will be autodetected if possible.
         /// </summary>
+        /// <param name="arduinoModel"></param>
         /// <param name="autoBootstrap"></param>
-        public ArduinoDriver(bool autoBootstrap = false)
+        public ArduinoDriver(ArduinoModel arduinoModel, bool autoBootstrap = false)
         {
-            logger.Info("Instantiating ArduinoDriver with autoconfiguration of port name...");
+            logger.Info(
+                "Instantiating ArduinoDriver (model {0}) with autoconfiguration of port name...",
+                arduinoModel);
             var possiblePortNames = SerialPort.GetPortNames().Distinct();
-            string unambiguous = null;
+            string unambiguousPortName = null;
             try
             {
-                unambiguous = possiblePortNames.SingleOrDefault();
+                unambiguousPortName = possiblePortNames.SingleOrDefault();
             }
             catch (InvalidOperationException)
             {
                 // More than one posible hit.
             }
-            if (unambiguous == null)
+            if (unambiguousPortName == null)
                 throw new IOException("Unable to autoconfigure ArduinoDriver port name, since there is not exactly a single COM port available. Please use the "
                     + "ArduinoDriver with the named port constructor!");
-            Initialize(unambiguous, autoBootstrap);
+            Initialize(arduinoModel, unambiguousPortName, autoBootstrap);
         }
 
         /// <summary>
         /// Creates a new ArduinoDriver instance for a specified portName.
         /// </summary>
+        /// <param name="arduinoModel"></param>
         /// <param name="portName">The COM portname to create the ArduinoDriver instance for.</param>
         /// <param name="autoBootStrap">Determines if an listener is automatically deployed to the Arduino if required.</param>
-        public ArduinoDriver(string portName, bool autoBootStrap = false)
+        public ArduinoDriver(ArduinoModel arduinoModel, string portName, bool autoBootStrap = false)
         {
-            Initialize(portName, autoBootStrap);
+            Initialize(arduinoModel, portName, autoBootStrap);
         }
 
         /// <summary>
@@ -87,7 +92,7 @@ namespace ArduinoDriver
 
         #region Private Methods
 
-        private void Initialize(string portName, bool autoBootStrap)
+        private void Initialize(ArduinoModel arduinoModel, string portName, bool autoBootStrap)
         {
             logger.Info("Instantiating ArduinoDriver for port {0}...", portName);
             port = new ArduinoDriverSerialPort(portName, 115200);
@@ -105,7 +110,7 @@ namespace ArduinoDriver
                             "Unable to get a handshake ACK when sending a handshake request to the Arduino on port {0}. " +
                             "Pass 'true' for optional parameter autoBootStrap in one of the ArduinoDriver constructors to automatically configure the Arduino (please " +
                             "note: this will overwrite the existing sketch on the Arduino).", portName));
-                ExecuteAutoBootStrap();
+                ExecuteAutoBootStrap(arduinoModel);
             }
             else
             {
@@ -116,11 +121,11 @@ namespace ArduinoDriver
                 logger.Info("Arduino Listener Protocol Version: {0}.", listenerVersion);
                 var upgradeNeeded = currentVersion > listenerVersion;
                 logger.Info("Upgrade neede: {0}", upgradeNeeded);
-                if (upgradeNeeded) ExecuteAutoBootStrap();
+                if (upgradeNeeded) ExecuteAutoBootStrap(arduinoModel);
             }            
         }
 
-        private void ExecuteAutoBootStrap()
+        private void ExecuteAutoBootStrap(ArduinoModel arduinoModel)
         {
             logger.Info("Executing AutoBootStrap!");
             logger.Info("Deploying protocol version {0}.{1}.", CurrentProtocolMajorVersion, CurrentProtocolMinorVersion);
@@ -130,8 +135,11 @@ namespace ArduinoDriver
 
             logger.Debug("Reading internal resource stream with Arduino Listener HEX file...");
             var assembly = Assembly.GetExecutingAssembly();
-            var textStream = assembly.GetManifestResourceStream(ArduinoListenerHexResourceFileName);
-            if (textStream == null) throw new IOException("Unable to configure auto bootstrap, embedded resource missing!");
+            var textStream = assembly.GetManifestResourceStream(
+                string.Format(ArduinoListenerHexResourceFileName, arduinoModel));
+            if (textStream == null) 
+                throw new IOException("Unable to configure auto bootstrap, embedded resource missing!");
+
             var hexFileContents = new List<string>();
             using (var reader = new StreamReader(textStream))
                 while (reader.Peek() >= 0) hexFileContents.Add(reader.ReadLine());
@@ -139,7 +147,8 @@ namespace ArduinoDriver
             logger.Debug("Uploading HEX file...");
             var uploader = new ArduinoSketchUploader(new ArduinoSketchUploaderOptions
             {
-                PortName = portName
+                PortName = portName,
+                ArduinoModel = arduinoModel
             });
             uploader.UploadSketch(hexFileContents);
 
