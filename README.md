@@ -57,7 +57,7 @@ The protocol supports:
 * Fault tolerance and error detection (fletcher-16 checksums)
 * Automated deployment of the listener code to the Arduino
 
-The library emits log messages (in varying levels, from *Info* to *Trace*) via NLog. Hook up an NLog dependency (and configuration) in any project that uses *ArduinoSketchUploader* to automagically generate these messages as well.
+The library emits log messages (in varying levels, from *Info* to *Trace*) via NLog. Hook up an NLog dependency (and configuration) in any project that uses *ArduinoDriver* to automagically emit these messages as well.
 
 ## Sample Code: Super Mario Bros "Underworld" theme ##
 
