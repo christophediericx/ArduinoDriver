@@ -1,6 +1,6 @@
 # ArduinoDriver
 
-A .NET library to easily connect, drive and debug an Arduino through a simple and highly *syntax compatible* request / response protocol running over the serial (USB) connection.
+A .NET library to easily connect, drive and debug an Arduino through a simple and highly Arduino syntax compatible request / response protocol running over the serial (USB) connection.
 
 ![ArduinoDriver](https://github.com/christophediericx/ArduinoLibCSharp/blob/master/Images/ArduinoLibCSharp-header-color-v2.png)
 
@@ -55,10 +55,17 @@ Install-Package ArduinoDriver
 
 ## Logging ##
 
-The library channels log messages (in varying levels, from Info to Trace) via NLog. Optionally, add a nuget NLog dependency (and configuration file) in any project that uses ArduinoDriver in order to redirect these log messages to any preferred log target.
+The library channels log messages (in varying levels, from Info to Trace) via NLog. Optionally, add a nuget NLog dependency (and configuration file) in any project that uses ArduinoDriver in order to redirect these log messages to preferred log targets.
 
 ## Sample Code Project: Super Mario Bros "Underworld" theme ##
 
 This sample project uses the library above to play this classic retro tune on an Arduino with C#.
 
 One pin of the buzzer should be connected to digital pin 8. The other pin should be connected to GND.
+
+The sample code is configured for an UNO. Don't forget to change the following line if you have another Arduino model attached:
+
+```csharp
+// ----------> CHANGE THIS!
+private const ArduinoModel AttachedArduino = ArduinoModel.UnoR3;
+```
