@@ -1,8 +1,35 @@
 # ArduinoDriver
 
-A .NET library to easily connect, drive (and debug) an Arduino through a highly syntax compatible request / response protocol running over the serial connection.
+A .NET library to easily connect, drive and debug an Arduino through a simple and highly *syntax compatible* request / response protocol running over the serial (USB) connection.
 
 ![ArduinoDriver](https://github.com/christophediericx/ArduinoLibCSharp/blob/master/Images/ArduinoLibCSharp-header-color-v2.png)
+
+## Summary ##
+A two-line snippet can illustrate some of the library's features:
+```csharp
+var driver = new ArduinoDriver(ArduinoModel.UnoR3, true);
+driver.Send(new ToneRequest(8, 200, 1000));
+```
+
+* This creates an ArduinoDriver for a specific Arduino Model (in this case an Uno).
+
+* The relevant COM port is autodetected (although a constructor overload for specifying the port exists).
+
+* The second parameter to the constructor (*autoBootstrap*) enables automated deployment of our [protocol listener](Source/ArduinoDriver/ArduinoListener/ArduinoListener.ino) onto the Arduino (if necessary). This means you don't have to compile / deploy anything on the Arduino itself in order to start using this library (the library uses the related [ArduinoSketchUploader](https://github.com/christophediericx/ArduinoSketchUploader) library to achieve this).
+
+* Use the *Send* method on the driver in order to send a message to the Arduino, and receive a response. Most of the typical Arduino library methods have completely analogous request / counterparts:
+
+  * AnalogReadRequest / AnalogReadResponse
+  * AnalogWriteRequest / AnalogWriteResponse
+  * DigitalReadRequest / DigitalReadResponse
+  * DigitalWriteRequest / DigitalWriteResponse
+  * PinModeRequest / PinModeResponse
+  * ...
+
+The protocol itself supports:
+* Handshaking and version negotation
+* High speed communication
+* Fault tolerance and error detection (through fletcher-16 checksums)
 
 ## Compatibility ##
 
@@ -25,41 +52,12 @@ Alternatively, install the package using the nuget package manager console:
 ```
 Install-Package ArduinoDriver
 ```
-An *ArduinoDriver* can be created in order to communicate with an attached board (through sending messages). The available commands mimick the functions available in the Arduino Language libraries itself (analog and digital reads / writes, set pinmodes, send tone,...) so most Arduino snippets found online can be directly ported to work with the ArduinoDriver instead.
 
-For example, this small snippet illustrates on how to send a *Tone* request to Pin 8 on an attached Uno.
+## Logging ##
 
-```csharp
-using ArduinoDriver.SerialProtocol;
-using ArduinoUploader.Hardware;
+The library channels log messages (in varying levels, from Info to Trace) via NLog. Optionally, add a nuget NLog dependency (and configuration file) in any project that uses ArduinoDriver in order to redirect these log messages to any preferred log target.
 
-namespace ArduinoDriverDemo
-{
-    internal class Program
-    {
-        private static void Main(string[] args)
-        {
-            // Create an ArduinoDriver, autobootstrap the listener on the Arduino
-            // (by passing true to the constructor) and send a ToneRequest to pin 8
-            const byte tonePin = 8;
-
-            var driver = new ArduinoDriver.ArduinoDriver(ArduinoModel.UnoR3, true);
-            driver.Send(new ToneRequest(tonePin, 200, 1000));
-        }
-    }
-}
-```
-For this to work, the C# ArduinoDriver library implements a serial communication protocol with a corresponding listener for the Arduino ([ArduinoListener.ino](Source/ArduinoDriver/ArduinoListener/ArduinoListener.ino)).
-
-The protocol supports:
-* Handshaking and version negotation
-* High speed communication
-* Fault tolerance and error detection (fletcher-16 checksums)
-* Automated deployment of the listener code to the Arduino
-
-The library emits log messages (in varying levels, from *Info* to *Trace*) via NLog. Hook up an NLog dependency (and configuration) in any project that uses *ArduinoDriver* to automagically emit these messages as well.
-
-## Sample Code: Super Mario Bros "Underworld" theme ##
+## Sample Code Project: Super Mario Bros "Underworld" theme ##
 
 This sample project uses the library above to play this classic retro tune on an Arduino with C#.
 
