@@ -2,7 +2,7 @@
 
 A .NET library to easily connect, drive and debug an Arduino through a simple and highly Arduino syntax compatible request / response protocol running over the serial (USB) connection.
 
-![ArduinoDriver](https://github.com/christophediericx/ArduinoLibCSharp/blob/master/Images/ArduinoLibCSharp-header-color-v2.png)
+![ArduinoDriver](https://github.com/christophediericx/ArduinoDriver/blob/master/Images/ArduinoDriver.png)
 
 ## Summary ##
 A two-line snippet can illustrate some of the library's features:
