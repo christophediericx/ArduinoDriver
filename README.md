@@ -1,4 +1,4 @@
-# ArduinoDriver [![NuGet version](https://badge.fury.io/nu/ArduinoDriver.svg)](https://badge.fury.io/nu/ArduinoDriver)
+# ArduinoDriver
 
 A .NET library to easily connect, drive and debug an Arduino through a simple and highly Arduino syntax compatible request / response protocol running over the serial (USB) connection.
 
@@ -44,6 +44,8 @@ The library has been tested with the following configurations:
 > *If you have a need for this library to run on another Arduino model, feel free to open an issue on GitHub, it should be relatively straightforward to add support (for most).*
 
 ## How to use the .NET library ##
+
+[![NuGet version](https://badge.fury.io/nu/ArduinoDriver.svg)](https://badge.fury.io/nu/ArduinoDriver)
 
 Link the following nuget package in your project in order to use the ArduinoDriver: https://www.nuget.org/packages/ArduinoDriver/
 
