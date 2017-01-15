@@ -38,6 +38,7 @@ The library has been tested with the following configurations:
 | Arduino Model | MCU           | Bootloader protocol |
 | ------------- |:-------------:| -------------------:|
 | Mega 2560     | ATMega2560    | STK500v2            |
+| Micro         | ATMega32U4    | AVR109              |
 | Nano (R3)     | ATMega328P    | STK500v1            |
 | Uno (R3)      | ATMega328P    | STK500v1            |
 
