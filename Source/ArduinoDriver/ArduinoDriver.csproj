@@ -33,7 +33,7 @@
   <ItemGroup>
     <Reference Include="ArduinoUploader, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ArduinoUploader.2.1.0\lib\net45\ArduinoUploader.dll</HintPath>
+      <HintPath>..\packages\ArduinoUploader.2.2.0\lib\net45\ArduinoUploader.dll</HintPath>
     </Reference>
     <Reference Include="IntelHexFormatReader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -43,14 +43,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NLog.4.3.9\lib\net45\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="RJCP.SerialPortStream">
+      <HintPath>..\packages\SerialPortStream.2.0.2\lib\net45\RJCP.SerialPortStream.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArduinoDriver.cs" />
-    <Compile Include="ArduinoDriverSerialPort.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="ArduinoDriverConfiguration.cs" />
+    <Compile Include="ArduinoDriverSerialPort.cs" />
     <Compile Include="DigitalValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -58,6 +60,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SerialEngines\DefaultSerialPort.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SerialEngines\ISerialPortEngine.cs" />
+    <Compile Include="SerialEngines\RJCPSerialPortStream.cs" />
     <Compile Include="SerialProtocol\AnalogReadRequest.cs" />
     <Compile Include="SerialProtocol\AnalogReadResponse.cs" />
     <Compile Include="SerialProtocol\AnalogWriteRequest.cs" />
@@ -91,6 +98,7 @@
     <EmbeddedResource Include="ArduinoListener\ArduinoListener.ino.UnoR3.hex" />
     <EmbeddedResource Include="ArduinoListener\ArduinoListener.ino.Mega2560.hex" />
     <EmbeddedResource Include="ArduinoListener\ArduinoListener.ino.NanoR3.hex" />
+    <EmbeddedResource Include="ArduinoListener\ArduinoListener.ino.Micro.hex" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

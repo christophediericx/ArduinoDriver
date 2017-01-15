@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ArduinoDriver.SerialProtocol
 {
@@ -11,5 +13,11 @@ namespace ArduinoDriver.SerialProtocol
 
         internal IList<byte> Bytes = new List<byte>();
         internal byte Command { get; private set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0} ({1})", GetType().FullName, 
+                BitConverter.ToString(Bytes.ToArray()));
+        }
     }
 }

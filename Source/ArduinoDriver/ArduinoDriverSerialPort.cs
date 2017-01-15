@@ -1,95 +1,95 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Ports;
 using System.Linq;
-using System.Threading;
+using ArduinoDriver.SerialEngines;
 using ArduinoDriver.SerialProtocol;
 using NLog;
 
 namespace ArduinoDriver
 {
-    internal class ArduinoDriverSerialPort : SerialPort
+    internal class ArduinoDriverSerialPort
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-        private readonly object serialDataIncoming;
-        private const int ReceiveTimeOut = 1000;
-        private const int MaxSendRetries = 5;
+        private readonly ISerialPortEngine serialPort;
+        private const int MaxSendRetries = 6;
         private const int MaxSyncRetries = 10;
-        private int numberOfBytesToRead;
 
-        internal ArduinoDriverSerialPort(string portName, int baudRate)
-            : base(portName, baudRate)
+        internal ArduinoDriverSerialPort(ISerialPortEngine serialPortEngine)
         {
-            serialDataIncoming = new object();
-            DataReceived += OnDataReceived;
+            serialPort = serialPortEngine;
         }
 
-        private void OnDataReceived(object sender, SerialDataReceivedEventArgs serialDataReceivedEventArgs)
+        public void Open()
         {
-            var availableBytes = BytesToRead;
-            if (availableBytes < numberOfBytesToRead) return;
-            lock (serialDataIncoming)
-            {
-                Monitor.Pulse(serialDataIncoming);
-            }
+            serialPort.Open();
+        }
+
+        public void Close()
+        {
+            serialPort.Close();
+        }
+
+        public void Dispose()
+        {
+            serialPort.Dispose();
         }
 
         private bool GetSync()
         {
-            var bytes = CommandConstants.SyncBytes;
-            numberOfBytesToRead = 4;
-            Write(bytes, 0, bytes.Length);
-            WaitForBytes(numberOfBytesToRead);
-            var responseBytes = ReadCurrentReceiveBuffer(numberOfBytesToRead);
-            return responseBytes.Length == 4
-                   && responseBytes[0] == bytes[3]
-                   && responseBytes[1] == bytes[2]
-                   && responseBytes[2] == bytes[1]
-                   && responseBytes[3] == bytes[0];
+            try
+            {
+                var bytes = CommandConstants.SyncBytes;
+                serialPort.Write(bytes, 0, bytes.Length);
+                var responseBytes = ReadCurrentReceiveBuffer(4);
+                return responseBytes.Length == 4
+                       && responseBytes[0] == bytes[3]
+                       && responseBytes[1] == bytes[2]
+                       && responseBytes[2] == bytes[1]
+                       && responseBytes[3] == bytes[0];
+            }
+            catch (TimeoutException e)
+            {
+                logger.Trace("Timeout while trying to get sync...");
+                return false;
+            }
+            catch (Exception e)
+            {
+                logger.Trace("Exception while trying to get sync ('{0}')", e.Message);
+                return false;
+            }
         }
 
         private bool ExecuteCommandHandShake(byte command, byte length)
         {
             var bytes = new byte[] {0xfb, command, length};
-            numberOfBytesToRead = 3;
-            Write(bytes, 0, bytes.Length);
-            WaitForBytes(numberOfBytesToRead);
-            var responseBytes = ReadCurrentReceiveBuffer(numberOfBytesToRead);
+            serialPort.Write(bytes, 0, bytes.Length);
+            var responseBytes = ReadCurrentReceiveBuffer(3);
             return responseBytes.Length == 3
                    && responseBytes[0] == bytes[2]
                    && responseBytes[1] == bytes[1]
                    && responseBytes[2] == bytes[0];
         }
 
-        private void WaitForBytes(int numberOfBytes)
+        internal ArduinoResponse Send(ArduinoRequest request, int maxSendRetries = MaxSendRetries)
         {
-            numberOfBytesToRead = numberOfBytes;
-            lock (serialDataIncoming)
-            {
-                if (!Monitor.Wait(serialDataIncoming, ReceiveTimeOut))
-                    throw new TimeoutException();
-            }            
-        }
-
-        internal ArduinoResponse Send(ArduinoRequest request)
-        {
+            logger.Trace("Sending {0}", request);
             var sendRetries = 0;
-            while (sendRetries++ < MaxSendRetries - 1)
+            while (sendRetries++ < maxSendRetries)
             {
                 try
                 {
                     // First try to get sync (send FF FE FD FC and require FC FD FE FF as a response).
                     bool hasSync;
                     var syncRetries = 0;
-                    while (!(hasSync = GetSync()) && syncRetries++ < MaxSyncRetries - 1)
+                    while (!(hasSync = GetSync()) && syncRetries++ < MaxSyncRetries)
                     {
                         logger.Debug("Unable to get sync ... trying again ({0}/{1}).", syncRetries, MaxSyncRetries);
                     }
                     if (!hasSync)
                     {
                         var errorMessage = string.Format("Unable to get sync after {0} tries!", MaxSyncRetries);
-                        logger.Fatal(errorMessage);
+                        logger.Warn(errorMessage);
                         throw new IOException(errorMessage);
                     }
 
@@ -101,7 +101,7 @@ namespace ArduinoDriver
                     if (!ExecuteCommandHandShake(request.Command, (byte)requestBytesLength))
                     {
                         var errorMessage = string.Format("Unable to configure command handshake for command {0}.", request);
-                        logger.Fatal(errorMessage);
+                        logger.Warn(errorMessage);
                         throw new IOException(errorMessage);
                     }
 
@@ -123,29 +123,25 @@ namespace ArduinoDriver
                     packetBytes[requestBytesLength + 2] = c0;
                     packetBytes[requestBytesLength + 3] = c1;
 
-                    Write(packetBytes, 0, requestBytesLength + 4);
+                    serialPort.Write(packetBytes, 0, requestBytesLength + 4);
 
                     // Write out all bytes written marker (FA)
-                    Write(new[] { CommandConstants.AllBytesWritten }, 0, 1);
+                    serialPort.Write(new[] { CommandConstants.AllBytesWritten }, 0, 1);
 
                     // Expect response message to drop to be received in the following form:
                     // F9 (start of response marker) followed by response length
-                    numberOfBytesToRead = 2;
-                    WaitForBytes(numberOfBytesToRead);
-                    var responseBytes = ReadCurrentReceiveBuffer(numberOfBytesToRead);
+                    var responseBytes = ReadCurrentReceiveBuffer(2);
                     var startOfResponseMarker = responseBytes[0];
                     var responseLength = responseBytes[1];
                     if (startOfResponseMarker != CommandConstants.StartOfResponseMarker)
                     {
                         var errorMessage = string.Format("Did not receive start of response marker but {0}!", startOfResponseMarker);
-                        logger.Fatal(errorMessage);
+                        logger.Warn(errorMessage);
                         throw new IOException(errorMessage);
                     }
 
                     // Read x responsebytes
-                    numberOfBytesToRead = responseLength;
-                    if (BytesToRead < numberOfBytesToRead) WaitForBytes(numberOfBytesToRead);
-                    responseBytes = ReadCurrentReceiveBuffer(numberOfBytesToRead);
+                    responseBytes = ReadCurrentReceiveBuffer(responseLength);
                     return ArduinoResponse.Create(responseBytes);
                 }
                 catch (TimeoutException ex)
@@ -154,7 +150,7 @@ namespace ArduinoDriver
                 }
                 catch (Exception ex)
                 {
-                    logger.Debug(ex, "General exception in Send occurred, retrying ({0}/{1})!", sendRetries, MaxSendRetries);
+                    logger.Debug("Exception: '{0}'", ex.Message);
                 }                
             }
             return null;
@@ -175,7 +171,17 @@ namespace ArduinoDriver
         private byte[] ReadCurrentReceiveBuffer(int numberOfBytes)
         {
             var result = new byte[numberOfBytes];
-            Read(result, 0, numberOfBytes);
+            var retrieved = 0;
+            var retryCount = 0;
+
+            while (retrieved < numberOfBytes && retryCount++ < 4)
+                retrieved += serialPort.Read(result, retrieved, numberOfBytes - retrieved);
+
+            if (retrieved < numberOfBytes)
+            {
+                logger.Info("Ended up reading short (expected {0} bytes, got only {1})...",
+                    numberOfBytes, retrieved);
+            }
             return result;
         }
     }
