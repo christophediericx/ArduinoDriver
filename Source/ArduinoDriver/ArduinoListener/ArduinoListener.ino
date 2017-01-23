@@ -124,7 +124,7 @@ void loop() {
        Serial.flush();
        break;
     case CMD_DIGITALREAD:
-       digitalPinToRead = data[0];
+       digitalPinToRead = data[2];
        digitalPinState = digitalRead(digitalPinToRead);
        Serial.write(START_OF_RESPONSE_MARKER);
        Serial.write(3);       

@@ -150,14 +150,18 @@ namespace ArduinoDriver
             logger.Info("Initiating handshake...");
             InitializePort();
             var handshakeResponse = ExecuteHandshake();
-            port.Close();
             if (handshakeResponse == null)
+            {
+                port.Close();
+                port.Dispose();
                 throw new IOException(
                     string.Format(
-                        "Unable to get a handshake ACK when sending a handshake request to the Arduino on port {0}. " 
-                        + "Pass 'true' for optional parameter autoBootStrap in one of the ArduinoDriver constructors to "
+                        "Unable to get a handshake ACK when sending a handshake request to the Arduino on port {0}. "
+                        +
+                        "Pass 'true' for optional parameter autoBootStrap in one of the ArduinoDriver constructors to "
                         + "automatically configure the Arduino (please note: this will overwrite the existing sketch "
                         + "on the Arduino).", config.PortName));
+            }
         }
 
         private void InitializeWithAutoBootstrap()
