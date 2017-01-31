@@ -63,11 +63,12 @@ namespace ArduinoDriver.Samples.SMBTune
                 for (var i = 0; i < melody.Length; i++)
                 {
                     var noteDuration = 1000 / tempo[i];
-                    driver.Send(new ToneRequest(DigitalPinBuzzer, (ushort) melody[i], (uint) noteDuration));
-                    Thread.Sleep((int) (noteDuration * 1.40));
+                    driver.Send(new ToneRequest(DigitalPinBuzzer, (ushort)melody[i], (uint)noteDuration));
+                    Thread.Sleep((int)(noteDuration * 1.40));
                     driver.Send(new NoToneRequest(DigitalPinBuzzer));
                 }
             }
+
         }
     }
 }

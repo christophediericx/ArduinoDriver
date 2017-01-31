@@ -92,13 +92,73 @@ namespace ArduinoDriver
         }
 
         /// <summary>
-        /// Sends an ArduinoRequest to the Arduino, and returns the corresponding ArduinoResponse object.
+        /// Sends an Analog Read Request to the Arduino.
         /// </summary>
-        /// <param name="request">The ArduinoRequest request object to send.</param>
-        /// <returns>The ArduinoResponse response object.</returns>
-        public ArduinoResponse Send(ArduinoRequest request)
+        /// <param name="request">Analog Read Request</param>
+        /// <returns>The Analog Read Response</returns>
+        public AnalogReadResponse Send(AnalogReadRequest request)
         {
-            return port.Send(request);
+            return (AnalogReadResponse) InternalSend(request);
+        }
+
+        /// <summary>
+        /// Sends an Analog Write Request to the Arduino.
+        /// </summary>
+        /// <param name="request">Analog Write Request</param>
+        /// <returns>The Analog Write Response</returns>
+        public AnalogWriteResponse Send(AnalogWriteRequest request)
+        {
+            return (AnalogWriteResponse) InternalSend(request);
+        }
+
+        /// <summary>
+        /// Sends an Digital Read Request to the Arduino.
+        /// </summary>
+        /// <param name="request">Digital Read Request</param>
+        /// <returns>The Digital Read Response</returns>
+        public DigitalReadResponse Send(DigitalReadRequest request)
+        {
+            return (DigitalReadResponse) InternalSend(request);
+        }
+
+        /// <summary>
+        /// Sends an Digital Write Request to the Arduino.
+        /// </summary>
+        /// <param name="request">Digital Write Request</param>
+        /// <returns>The Digital Write Response</returns>
+        public DigitalWriteReponse Send(DigitalWriteRequest request)
+        {
+            return (DigitalWriteReponse) InternalSend(request);
+        }
+
+        /// <summary>
+        /// Sends an PinMode Request to the Arduino.
+        /// </summary>
+        /// <param name="request">PinMode Request</param>
+        /// <returns>The PinMode Response</returns>
+        public PinModeResponse Send(PinModeRequest request)
+        {
+            return (PinModeResponse) InternalSend(request);
+        }
+
+        /// <summary>
+        /// Sends an Tone Request to the Arduino.
+        /// </summary>
+        /// <param name="request">Tone Request</param>
+        /// <returns>The Tone Response</returns>
+        public ToneResponse Send(ToneRequest request)
+        {
+            return (ToneResponse) InternalSend(request);
+        }
+
+        /// <summary>
+        /// Sends an NoTone Request to the Arduino.
+        /// </summary>
+        /// <param name="request">NoTone Request</param>
+        /// <returns>The NoTone Response</returns>
+        public NoToneResponse Send(NoToneRequest request)
+        {
+            return (NoToneResponse) InternalSend(request);
         }
 
         /// <summary>
@@ -129,7 +189,7 @@ namespace ArduinoDriver
             {
                 case ArduinoModel.Micro:
                 {
-                    engineFunc = () => new RJCPSerialPortStream {PortName = config.PortName, BaudRate = DriverBaudRate};
+                    engineFunc = () => new RJCPSerialPortStream { PortName = config.PortName, BaudRate = DriverBaudRate };
                     break;
                 }
                 default:
@@ -231,6 +291,11 @@ namespace ArduinoDriver
             engine.ReadTimeout = 100;
             port = new ArduinoDriverSerialPort(engine);
             port.Open();
+        }
+
+        private ArduinoResponse InternalSend(ArduinoRequest request)
+        {
+            return port.Send(request);
         }
 
         private HandShakeResponse ExecuteHandshake()
