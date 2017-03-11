@@ -1,7 +1,7 @@
 /*
  *
  * ArduinoLibCSharp ArduinoDriver Serial Protocol - Arduino Listener.
- * Version 1.0.
+ * Version 1.1.
  */
 
 const long BAUD_RATE = 115200;
@@ -16,7 +16,7 @@ const byte START_OF_RESPONSE_MARKER   = 0xf9;
 const byte ERROR_MARKER               = 0xef;
 
 const unsigned int PROTOCOL_VERSION_MAJOR = 1;
-const unsigned int PROTOCOL_VERSION_MINOR = 0;
+const unsigned int PROTOCOL_VERSION_MINOR = 1;
 
 const byte CMD_HANDSHAKE_INITIATE     = 0x01;
 const byte ACK_HANDSHAKE_INITIATE     = 0x02;
@@ -35,6 +35,8 @@ const byte CMD_TONE                   = 0x0d;
 const byte ACK_TONE                   = 0x0e;
 const byte CMD_NOTONE                 = 0x0f;
 const byte ACK_NOTONE                 = 0x10;
+const byte CMD_ANALOGREFERENCE        = 0x11;
+const byte ACK_ANALOGREFERENCE        = 0x12;
 
 byte data[64];
 byte commandByte, lengthByte, syncByte, fletcherByte1, fletcherByte2;
@@ -47,6 +49,7 @@ unsigned int analogPinToRead;
 unsigned int analogPinToWrite;
 unsigned int analogPinValueToWrite;
 unsigned int analogReadResult;
+unsigned int analogReferenceType;
 unsigned int toneFrequency;
 unsigned long toneDuration;
 
@@ -200,6 +203,19 @@ void loop() {
       Serial.write(START_OF_RESPONSE_MARKER);
       Serial.write(1);        
       Serial.write(ACK_NOTONE);
+      Serial.flush();
+      break;
+    case CMD_ANALOGREFERENCE:
+      analogReferenceType = data[2];
+      if (analogReferenceType == 0) { analogReference(DEFAULT); }
+      if (analogReferenceType == 1) { analogReference(3); } // INTERNAL,     Not on Arduino MEGA
+      if (analogReferenceType == 2) { analogReference(2); } // INTERNAL1v1,  Arduino MEGA only
+      if (analogReferenceType == 3) { analogReference(3); } // INTERNAL2v56, Arduino MEGA only
+      if (analogReferenceType == 4) { analogReference(EXTERNAL); }
+      Serial.write(START_OF_RESPONSE_MARKER);
+      Serial.write(2);
+      Serial.write(ACK_ANALOGREFERENCE);
+      Serial.write(analogReferenceType);
       Serial.flush();
       break;
     default:

@@ -26,5 +26,7 @@
         public const byte ToneAck                   = 0x0E;
         public const byte NoTone                    = 0x0F;
         public const byte NoToneAck                 = 0x10;
+        public const byte AnalogReference           = 0x11;
+        public const byte AnalogReferenceAck        = 0x12;
     }
 }

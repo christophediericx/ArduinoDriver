@@ -69,6 +69,9 @@
     <Compile Include="SerialEngines\RJCPSerialPortStream.cs" />
     <Compile Include="SerialProtocol\AnalogReadRequest.cs" />
     <Compile Include="SerialProtocol\AnalogReadResponse.cs" />
+    <Compile Include="SerialProtocol\AnalogReferenceRequest.cs" />
+    <Compile Include="SerialProtocol\AnalogReferenceResponse.cs" />
+    <Compile Include="SerialProtocol\AnalogReferenceType.cs" />
     <Compile Include="SerialProtocol\AnalogWriteRequest.cs" />
     <Compile Include="SerialProtocol\AnalogWriteResponse.cs" />
     <Compile Include="SerialProtocol\ArduinoMessage.cs" />
@@ -96,7 +99,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="ArduinoDriver.nuspec" />
+    <None Include="ArduinoDriver.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ArduinoListener\ArduinoListener.ino" />
     <EmbeddedResource Include="ArduinoListener\ArduinoListener.ino.UnoR3.hex" />
     <EmbeddedResource Include="ArduinoListener\ArduinoListener.ino.Mega2560.hex" />

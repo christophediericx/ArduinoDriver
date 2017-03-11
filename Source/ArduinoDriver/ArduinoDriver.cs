@@ -32,7 +32,7 @@ namespace ArduinoDriver
                 {ArduinoModel.Mega2560, 4000}
             };
         private const int CurrentProtocolMajorVersion = 1;
-        private const int CurrentProtocolMinorVersion = 0;
+        private const int CurrentProtocolMinorVersion = 1;
         private const int DriverBaudRate = 115200;
         private ArduinoDriverSerialPort port;
         private ArduinoDriverConfiguration config;
@@ -162,6 +162,16 @@ namespace ArduinoDriver
         }
 
         /// <summary>
+        /// Sends an AnalogReference Request to the Arduino.
+        /// </summary>
+        /// <param name="request">AnalogReference Request</param>
+        /// <returns>AnalogReference Response</returns>
+        public AnalogReferenceResponse Send(AnalogReferenceRequest request)
+        {
+            return (AnalogReferenceResponse) InternalSend(request);
+        }
+
+        /// <summary>
         /// Disposes the ArduinoDriver instance.
         /// </summary>
         public void Dispose()
@@ -239,10 +249,12 @@ namespace ArduinoDriver
                 if (handShakeAckReceived)
                 {
                     logger.Info("Handshake ACK Received ...");
-                    const float currentVersion = (float)CurrentProtocolMajorVersion + (float)CurrentProtocolMinorVersion / 10;
-                    var listenerVersion = handshakeResponse.ProtocolMajorVersion + (float)handshakeResponse.ProtocolMinorVersion / 10;
-                    logger.Info("Current ArduinoDriver C# Protocol: {0}.", currentVersion);
-                    logger.Info("Arduino Listener Protocol Version: {0}.", listenerVersion);
+                    const int currentVersion = (CurrentProtocolMajorVersion * 10) + CurrentProtocolMinorVersion;
+                    var listenerVersion = (handshakeResponse.ProtocolMajorVersion * 10) + handshakeResponse.ProtocolMinorVersion;
+                    logger.Info("Current ArduinoDriver C# Protocol: {0}.{1}.", 
+                        CurrentProtocolMajorVersion, CurrentProtocolMinorVersion);
+                    logger.Info("Arduino Listener Protocol Version: {0}.{1}", 
+                        handshakeResponse.ProtocolMajorVersion, handshakeResponse.ProtocolMinorVersion);
                     handShakeIndicatesOutdatedProtocol = currentVersion > listenerVersion;
                 }
                 else

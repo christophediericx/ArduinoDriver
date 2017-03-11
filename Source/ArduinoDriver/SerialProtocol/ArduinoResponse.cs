@@ -45,6 +45,10 @@ namespace ArduinoDriver.SerialProtocol
                 {
                     return new NoToneResponse();
                 }
+                case CommandConstants.AnalogReferenceAck:
+                {
+                    return new AnalogReferenceResponse((AnalogReferenceType) bytes[1]);
+                }
                 default:
                 {
                     throw new IOException(string.Format("Unexpected command byte in response: {0}!", commandByte));
