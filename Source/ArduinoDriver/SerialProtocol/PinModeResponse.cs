@@ -5,7 +5,7 @@
         public int Pin { get; private set; }
         public PinMode Mode { get; private set; }
 
-        public PinModeResponse(int pin, PinMode mode)
+        public PinModeResponse(byte pin, PinMode mode)
         {
             Pin = pin;
             Mode = mode;            

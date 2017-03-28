@@ -1,7 +1,7 @@
 /*
  *
  * ArduinoLibCSharp ArduinoDriver Serial Protocol - Arduino Listener.
- * Version 1.1.
+ * Version 1.2.
  */
 
 const long BAUD_RATE = 115200;
@@ -16,7 +16,7 @@ const byte START_OF_RESPONSE_MARKER   = 0xf9;
 const byte ERROR_MARKER               = 0xef;
 
 const unsigned int PROTOCOL_VERSION_MAJOR = 1;
-const unsigned int PROTOCOL_VERSION_MINOR = 1;
+const unsigned int PROTOCOL_VERSION_MINOR = 2;
 
 const byte CMD_HANDSHAKE_INITIATE     = 0x01;
 const byte ACK_HANDSHAKE_INITIATE     = 0x02;
@@ -37,11 +37,16 @@ const byte CMD_NOTONE                 = 0x0f;
 const byte ACK_NOTONE                 = 0x10;
 const byte CMD_ANALOGREFERENCE        = 0x11;
 const byte ACK_ANALOGREFERENCE        = 0x12;
+const byte CMD_SHIFTOUT               = 0x13;
+const byte ACK_SHIFTOUT               = 0x14;
+const byte CMD_SHIFTIN                = 0x15;
+const byte ACK_SHIFTIN                = 0x16;
 
 byte data[64];
 byte commandByte, lengthByte, syncByte, fletcherByte1, fletcherByte2;
 unsigned int fletcher16, f0, f1, c0, c1;
 
+/* Base Types */
 unsigned int digitalPinToRead;
 unsigned int digitalPinToWrite;
 unsigned int digitalPinState;
@@ -50,8 +55,16 @@ unsigned int analogPinToWrite;
 unsigned int analogPinValueToWrite;
 unsigned int analogReadResult;
 unsigned int analogReferenceType;
+
+/* Tones */
 unsigned int toneFrequency;
 unsigned long toneDuration;
+
+/* ShiftOut */
+unsigned int clockPinToWrite;
+byte bitOrder;
+byte shiftOutValue;
+byte incoming;
 
 void setup() {
   Serial.begin(BAUD_RATE);
@@ -216,6 +229,37 @@ void loop() {
       Serial.write(2);
       Serial.write(ACK_ANALOGREFERENCE);
       Serial.write(analogReferenceType);
+      Serial.flush();
+      break;
+    case CMD_SHIFTOUT:
+      digitalPinToWrite = data[2];
+      clockPinToWrite = data[3];
+      bitOrder = data[4];
+      shiftOutValue = data[5];
+      if (bitOrder == 0) { shiftOut(digitalPinToWrite, clockPinToWrite, LSBFIRST, shiftOutValue); }      
+      if (bitOrder == 1) { shiftOut(digitalPinToWrite, clockPinToWrite, MSBFIRST, shiftOutValue); }
+      Serial.write(START_OF_RESPONSE_MARKER);
+      Serial.write(5);
+      Serial.write(ACK_SHIFTOUT);
+      Serial.write(digitalPinToWrite);
+      Serial.write(clockPinToWrite);
+      Serial.write(bitOrder);
+      Serial.write(shiftOutValue);
+      Serial.flush();
+      break;
+    case CMD_SHIFTIN:
+      digitalPinToWrite = data[2];
+      clockPinToWrite = data[3];
+      bitOrder = data[4];
+      if (bitOrder == 0) { incoming = shiftIn(digitalPinToWrite, clockPinToWrite, LSBFIRST); }
+      if (bitOrder == 1) { incoming = shiftIn(digitalPinToWrite, clockPinToWrite, MSBFIRST); }
+      Serial.write(START_OF_RESPONSE_MARKER);
+      Serial.write(5);
+      Serial.write(ACK_SHIFTIN);
+      Serial.write(digitalPinToWrite);
+      Serial.write(clockPinToWrite);
+      Serial.write(bitOrder);
+      Serial.write(incoming);
       Serial.flush();
       break;
     default:

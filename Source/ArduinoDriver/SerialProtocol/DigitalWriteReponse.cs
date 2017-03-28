@@ -5,10 +5,10 @@
         public int PinWritten { get; private set; }
         public DigitalValue PinValue { get; private set; }
 
-        public DigitalWriteReponse(int pinRead, int value)
+        public DigitalWriteReponse(byte pinRead, DigitalValue value)
         {
-            PinWritten = (byte)pinRead;
-            PinValue = (byte)value == 1 ? DigitalValue.High : DigitalValue.Low;
+            PinWritten = pinRead;
+            PinValue = value;
         }
     }
 }

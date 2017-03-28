@@ -5,7 +5,7 @@
         public int ProtocolMajorVersion { get; private set; }
         public int ProtocolMinorVersion { get; private set; }
 
-        public HandShakeResponse(int protocolMajorVersion, int protocolMinorVersion)
+        public HandShakeResponse(byte protocolMajorVersion, byte protocolMinorVersion)
         {
             ProtocolMajorVersion = protocolMajorVersion;
             ProtocolMinorVersion = protocolMinorVersion;

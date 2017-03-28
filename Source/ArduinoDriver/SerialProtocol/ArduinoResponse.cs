@@ -15,11 +15,11 @@ namespace ArduinoDriver.SerialProtocol
                 }
                 case CommandConstants.DigitalReadAck:
                 {
-                    return new DigitalReadResponse(bytes[1], bytes[2]);
+                    return new DigitalReadResponse(bytes[1], (DigitalValue) bytes[2]);
                 }
                 case CommandConstants.DigitalWriteAck:
                 {
-                    return new DigitalWriteReponse(bytes[1], bytes[2]);
+                    return new DigitalWriteReponse(bytes[1], (DigitalValue) bytes[2]);
                 }
                 case CommandConstants.PinModeAck:
                 {
@@ -48,6 +48,14 @@ namespace ArduinoDriver.SerialProtocol
                 case CommandConstants.AnalogReferenceAck:
                 {
                     return new AnalogReferenceResponse((AnalogReferenceType) bytes[1]);
+                }
+                case CommandConstants.ShiftOutAck:
+                {
+                    return new ShiftOutResponse(bytes[1], bytes[2], (BitOrder)bytes[3], bytes[4]);
+                }
+                case CommandConstants.ShiftInAck:
+                {
+                    return new ShiftInResponse(bytes[1], bytes[2], (BitOrder)bytes[3], bytes[4]);
                 }
                 default:
                 {

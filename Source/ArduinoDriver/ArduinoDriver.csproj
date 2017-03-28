@@ -77,6 +77,7 @@
     <Compile Include="SerialProtocol\ArduinoMessage.cs" />
     <Compile Include="SerialProtocol\ArduinoRequest.cs" />
     <Compile Include="SerialProtocol\ArduinoResponse.cs" />
+    <Compile Include="SerialProtocol\BitOrder.cs" />
     <Compile Include="SerialProtocol\CommandConstants.cs" />
     <Compile Include="SerialProtocol\DigitalReadRequest.cs" />
     <Compile Include="SerialProtocol\DigitalReadResponse.cs" />
@@ -90,6 +91,10 @@
     <Compile Include="SerialProtocol\PinMode.cs" />
     <Compile Include="SerialProtocol\PinModeRequest.cs" />
     <Compile Include="SerialProtocol\PinModeResponse.cs" />
+    <Compile Include="SerialProtocol\ShiftInRequest.cs" />
+    <Compile Include="SerialProtocol\ShiftInResponse.cs" />
+    <Compile Include="SerialProtocol\ShiftOutRequest.cs" />
+    <Compile Include="SerialProtocol\ShiftOutResponse.cs" />
     <Compile Include="SerialProtocol\ToneRequest.cs" />
     <Compile Include="SerialProtocol\ToneResponse.cs" />
   </ItemGroup>

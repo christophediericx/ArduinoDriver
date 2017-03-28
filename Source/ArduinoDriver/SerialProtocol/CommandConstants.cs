@@ -28,5 +28,9 @@
         public const byte NoToneAck                 = 0x10;
         public const byte AnalogReference           = 0x11;
         public const byte AnalogReferenceAck        = 0x12;
+        public const byte ShiftOut                  = 0x13;
+        public const byte ShiftOutAck               = 0x14;
+        public const byte ShiftIn                   = 0x15;
+        public const byte ShiftInAck                = 0x16;
     }
 }

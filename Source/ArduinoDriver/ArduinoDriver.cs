@@ -32,7 +32,7 @@ namespace ArduinoDriver
                 {ArduinoModel.Mega2560, 4000}
             };
         private const int CurrentProtocolMajorVersion = 1;
-        private const int CurrentProtocolMinorVersion = 1;
+        private const int CurrentProtocolMinorVersion = 2;
         private const int DriverBaudRate = 115200;
         private ArduinoDriverSerialPort port;
         private ArduinoDriverConfiguration config;
@@ -92,7 +92,7 @@ namespace ArduinoDriver
         }
 
         /// <summary>
-        /// Sends an Analog Read Request to the Arduino.
+        /// Sends a Analog Read Request to the Arduino.
         /// </summary>
         /// <param name="request">Analog Read Request</param>
         /// <returns>The Analog Read Response</returns>
@@ -102,7 +102,7 @@ namespace ArduinoDriver
         }
 
         /// <summary>
-        /// Sends an Analog Write Request to the Arduino.
+        /// Sends a Analog Write Request to the Arduino.
         /// </summary>
         /// <param name="request">Analog Write Request</param>
         /// <returns>The Analog Write Response</returns>
@@ -112,7 +112,7 @@ namespace ArduinoDriver
         }
 
         /// <summary>
-        /// Sends an Digital Read Request to the Arduino.
+        /// Sends a Digital Read Request to the Arduino.
         /// </summary>
         /// <param name="request">Digital Read Request</param>
         /// <returns>The Digital Read Response</returns>
@@ -122,7 +122,7 @@ namespace ArduinoDriver
         }
 
         /// <summary>
-        /// Sends an Digital Write Request to the Arduino.
+        /// Sends a Digital Write Request to the Arduino.
         /// </summary>
         /// <param name="request">Digital Write Request</param>
         /// <returns>The Digital Write Response</returns>
@@ -132,7 +132,7 @@ namespace ArduinoDriver
         }
 
         /// <summary>
-        /// Sends an PinMode Request to the Arduino.
+        /// Sends a PinMode Request to the Arduino.
         /// </summary>
         /// <param name="request">PinMode Request</param>
         /// <returns>The PinMode Response</returns>
@@ -142,7 +142,7 @@ namespace ArduinoDriver
         }
 
         /// <summary>
-        /// Sends an Tone Request to the Arduino.
+        /// Sends a Tone Request to the Arduino.
         /// </summary>
         /// <param name="request">Tone Request</param>
         /// <returns>The Tone Response</returns>
@@ -152,7 +152,7 @@ namespace ArduinoDriver
         }
 
         /// <summary>
-        /// Sends an NoTone Request to the Arduino.
+        /// Sends a NoTone Request to the Arduino.
         /// </summary>
         /// <param name="request">NoTone Request</param>
         /// <returns>The NoTone Response</returns>
@@ -162,13 +162,33 @@ namespace ArduinoDriver
         }
 
         /// <summary>
-        /// Sends an AnalogReference Request to the Arduino.
+        /// Sends a AnalogReference Request to the Arduino.
         /// </summary>
         /// <param name="request">AnalogReference Request</param>
         /// <returns>AnalogReference Response</returns>
         public AnalogReferenceResponse Send(AnalogReferenceRequest request)
         {
             return (AnalogReferenceResponse) InternalSend(request);
+        }
+
+        /// <summary>
+        /// Sends a ShiftOut Request to the Arduino.
+        /// </summary>
+        /// <param name="request">ShiftOut Request</param>
+        /// <returns>ShiftOut Response</returns>
+        public ShiftOutResponse Send(ShiftOutRequest request)
+        {
+            return (ShiftOutResponse) InternalSend(request);
+        }
+
+        /// <summary>
+        /// Sends a ShiftIn Request to the Arduino;
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public ShiftInResponse Send(ShiftInRequest request)
+        {
+            return (ShiftInResponse) InternalSend(request);
         }
 
         /// <summary>
@@ -256,6 +276,12 @@ namespace ArduinoDriver
                     logger.Info("Arduino Listener Protocol Version: {0}.{1}", 
                         handshakeResponse.ProtocolMajorVersion, handshakeResponse.ProtocolMinorVersion);
                     handShakeIndicatesOutdatedProtocol = currentVersion > listenerVersion;
+                    if (handShakeIndicatesOutdatedProtocol)
+                    {
+                        logger.Debug("Closing port...");
+                        port.Close();
+                        port.Dispose();                        
+                    }
                 }
                 else
                 {

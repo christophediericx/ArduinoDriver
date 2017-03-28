@@ -5,9 +5,9 @@
         public int PinWritten { get; private set; }
         public int ValueWritten { get; private set; }
 
-        public AnalogWriteResponse(int pinRead, int value)
+        public AnalogWriteResponse(byte pinRead, byte value)
         {
-            PinWritten = (byte)pinRead;
+            PinWritten = pinRead;
             ValueWritten = value;
         }
     }
