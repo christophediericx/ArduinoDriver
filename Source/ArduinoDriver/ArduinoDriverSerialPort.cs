@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using ArduinoDriver.SerialEngines;
 using ArduinoDriver.SerialProtocol;
 using NLog;
@@ -35,13 +36,13 @@ namespace ArduinoDriver
             serialPort.Dispose();
         }
 
-        private bool GetSync()
+        private async Task<bool> SynchronizeAsync()
         {
             try
             {
                 var bytes = CommandConstants.SyncBytes;
-                serialPort.Write(bytes, 0, bytes.Length);
-                var responseBytes = ReadCurrentReceiveBuffer(4);
+                await serialPort.WriteAsync(bytes, 0, bytes.Length);
+                var responseBytes = await ReadCurrentReceiveBufferAsync(4);
                 return responseBytes.Length == 4
                        && responseBytes[0] == bytes[3]
                        && responseBytes[1] == bytes[2]
@@ -60,18 +61,18 @@ namespace ArduinoDriver
             }
         }
 
-        private bool ExecuteCommandHandShake(byte command, byte length)
+        private async Task<bool> ExecuteCommandHandShakeAsync(byte command, byte length)
         {
             var bytes = new byte[] {0xfb, command, length};
-            serialPort.Write(bytes, 0, bytes.Length);
-            var responseBytes = ReadCurrentReceiveBuffer(3);
+            await serialPort.WriteAsync(bytes, 0, bytes.Length);
+            var responseBytes = await ReadCurrentReceiveBufferAsync(3);
             return responseBytes.Length == 3
                    && responseBytes[0] == bytes[2]
                    && responseBytes[1] == bytes[1]
                    && responseBytes[2] == bytes[0];
         }
 
-        internal ArduinoResponse Send(ArduinoRequest request, int maxSendRetries = MaxSendRetries)
+        internal async Task<ArduinoResponse> SendAsync(ArduinoRequest request, int maxSendRetries = MaxSendRetries)
         {
             logger.Trace("Sending {0}", request);
             var sendRetries = 0;
@@ -82,7 +83,7 @@ namespace ArduinoDriver
                     // First try to get sync (send FF FE FD FC and require FC FD FE FF as a response).
                     bool hasSync;
                     var syncRetries = 0;
-                    while (!(hasSync = GetSync()) && syncRetries++ < MaxSyncRetries)
+                    while (!(hasSync = await SynchronizeAsync()) && syncRetries++ < MaxSyncRetries)
                     {
                         logger.Debug("Unable to get sync ... trying again ({0}/{1}).", syncRetries, MaxSyncRetries);
                     }
@@ -98,7 +99,7 @@ namespace ArduinoDriver
                     var requestBytes = request.Bytes.ToArray();
                     var requestBytesLength = requestBytes.Length;
 
-                    if (!ExecuteCommandHandShake(request.Command, (byte)requestBytesLength))
+                    if (!await ExecuteCommandHandShakeAsync(request.Command, (byte)requestBytesLength))
                     {
                         var errorMessage = string.Format("Unable to configure command handshake for command {0}.", request);
                         logger.Warn(errorMessage);
@@ -123,14 +124,14 @@ namespace ArduinoDriver
                     packetBytes[requestBytesLength + 2] = c0;
                     packetBytes[requestBytesLength + 3] = c1;
 
-                    serialPort.Write(packetBytes, 0, requestBytesLength + 4);
+                    await serialPort.WriteAsync(packetBytes, 0, requestBytesLength + 4);
 
                     // Write out all bytes written marker (FA)
-                    serialPort.Write(new[] { CommandConstants.AllBytesWritten }, 0, 1);
+                    await serialPort.WriteAsync(new[] { CommandConstants.AllBytesWritten }, 0, 1);
 
                     // Expect response message to drop to be received in the following form:
                     // F9 (start of response marker) followed by response length
-                    var responseBytes = ReadCurrentReceiveBuffer(2);
+                    var responseBytes = await ReadCurrentReceiveBufferAsync(2);
                     var startOfResponseMarker = responseBytes[0];
                     var responseLength = responseBytes[1];
                     if (startOfResponseMarker != CommandConstants.StartOfResponseMarker)
@@ -141,7 +142,7 @@ namespace ArduinoDriver
                     }
 
                     // Read x responsebytes
-                    responseBytes = ReadCurrentReceiveBuffer(responseLength);
+                    responseBytes = await ReadCurrentReceiveBufferAsync(responseLength);
                     return ArduinoResponse.Create(responseBytes);
                 }
                 catch (TimeoutException ex)
@@ -168,14 +169,14 @@ namespace ArduinoDriver
             return (ushort)((sum2 << 8) | sum1);
         }
 
-        private byte[] ReadCurrentReceiveBuffer(int numberOfBytes)
+        private async Task<byte[]> ReadCurrentReceiveBufferAsync(int numberOfBytes)
         {
             var result = new byte[numberOfBytes];
             var retrieved = 0;
             var retryCount = 0;
 
             while (retrieved < numberOfBytes && retryCount++ < 4)
-                retrieved += serialPort.Read(result, retrieved, numberOfBytes - retrieved);
+                retrieved += await serialPort.ReadAsync(result, retrieved, numberOfBytes - retrieved);
 
             if (retrieved < numberOfBytes)
             {

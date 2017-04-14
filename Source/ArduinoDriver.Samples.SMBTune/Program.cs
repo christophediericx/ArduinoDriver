@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using System.Threading.Tasks;
 using ArduinoDriver.SerialProtocol;
 using ArduinoUploader.Hardware;
 
@@ -58,17 +59,21 @@ namespace ArduinoDriver.Samples.SMBTune
 
         private static void Main(string[] args)
         {
+            MainAsync(args).GetAwaiter().GetResult();
+        }
+
+        private static async Task MainAsync(string[] args)
+        {
             using (var driver = new ArduinoDriver(AttachedArduino, true))
             {
                 for (var i = 0; i < melody.Length; i++)
                 {
                     var noteDuration = 1000 / tempo[i];
-                    driver.Send(new ToneRequest(DigitalPinBuzzer, (ushort)melody[i], (uint)noteDuration));
+                    await driver.SendAsync(new ToneRequest(DigitalPinBuzzer, (ushort)melody[i], (uint)noteDuration));
                     Thread.Sleep((int)(noteDuration * 1.40));
-                    driver.Send(new NoToneRequest(DigitalPinBuzzer));
+                    await driver.SendAsync(new NoToneRequest(DigitalPinBuzzer));
                 }
             }
-
         }
     }
 }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using ArduinoDriver.SerialEngines;
 using ArduinoDriver.SerialProtocol;
 using ArduinoUploader;
@@ -96,9 +97,9 @@ namespace ArduinoDriver
         /// </summary>
         /// <param name="request">Analog Read Request</param>
         /// <returns>The Analog Read Response</returns>
-        public AnalogReadResponse Send(AnalogReadRequest request)
+        public async Task<AnalogReadResponse> SendAsync(AnalogReadRequest request)
         {
-            return (AnalogReadResponse) InternalSend(request);
+            return (AnalogReadResponse) await InternalSendAsync(request);
         }
 
         /// <summary>
@@ -106,9 +107,9 @@ namespace ArduinoDriver
         /// </summary>
         /// <param name="request">Analog Write Request</param>
         /// <returns>The Analog Write Response</returns>
-        public AnalogWriteResponse Send(AnalogWriteRequest request)
+        public async Task<AnalogWriteResponse> SendAsync(AnalogWriteRequest request)
         {
-            return (AnalogWriteResponse) InternalSend(request);
+            return (AnalogWriteResponse) await InternalSendAsync(request);
         }
 
         /// <summary>
@@ -116,9 +117,9 @@ namespace ArduinoDriver
         /// </summary>
         /// <param name="request">Digital Read Request</param>
         /// <returns>The Digital Read Response</returns>
-        public DigitalReadResponse Send(DigitalReadRequest request)
+        public async Task<DigitalReadResponse> SendAsync(DigitalReadRequest request)
         {
-            return (DigitalReadResponse) InternalSend(request);
+            return (DigitalReadResponse) await InternalSendAsync(request);
         }
 
         /// <summary>
@@ -126,9 +127,9 @@ namespace ArduinoDriver
         /// </summary>
         /// <param name="request">Digital Write Request</param>
         /// <returns>The Digital Write Response</returns>
-        public DigitalWriteReponse Send(DigitalWriteRequest request)
+        public async Task<DigitalWriteReponse> SendAsync(DigitalWriteRequest request)
         {
-            return (DigitalWriteReponse) InternalSend(request);
+            return (DigitalWriteReponse) await InternalSendAsync(request);
         }
 
         /// <summary>
@@ -136,9 +137,9 @@ namespace ArduinoDriver
         /// </summary>
         /// <param name="request">PinMode Request</param>
         /// <returns>The PinMode Response</returns>
-        public PinModeResponse Send(PinModeRequest request)
+        public async Task<PinModeResponse> SendAsync(PinModeRequest request)
         {
-            return (PinModeResponse) InternalSend(request);
+            return (PinModeResponse) await InternalSendAsync(request);
         }
 
         /// <summary>
@@ -146,9 +147,9 @@ namespace ArduinoDriver
         /// </summary>
         /// <param name="request">Tone Request</param>
         /// <returns>The Tone Response</returns>
-        public ToneResponse Send(ToneRequest request)
+        public async Task<ToneResponse> SendAsync(ToneRequest request)
         {
-            return (ToneResponse) InternalSend(request);
+            return (ToneResponse) await InternalSendAsync(request);
         }
 
         /// <summary>
@@ -156,9 +157,9 @@ namespace ArduinoDriver
         /// </summary>
         /// <param name="request">NoTone Request</param>
         /// <returns>The NoTone Response</returns>
-        public NoToneResponse Send(NoToneRequest request)
+        public async Task<NoToneResponse> SendAsync(NoToneRequest request)
         {
-            return (NoToneResponse) InternalSend(request);
+            return (NoToneResponse) await InternalSendAsync(request);
         }
 
         /// <summary>
@@ -166,9 +167,9 @@ namespace ArduinoDriver
         /// </summary>
         /// <param name="request">AnalogReference Request</param>
         /// <returns>AnalogReference Response</returns>
-        public AnalogReferenceResponse Send(AnalogReferenceRequest request)
+        public async Task<AnalogReferenceResponse> SendAsync(AnalogReferenceRequest request)
         {
-            return (AnalogReferenceResponse) InternalSend(request);
+            return (AnalogReferenceResponse) await InternalSendAsync(request);
         }
 
         /// <summary>
@@ -176,9 +177,9 @@ namespace ArduinoDriver
         /// </summary>
         /// <param name="request">ShiftOut Request</param>
         /// <returns>ShiftOut Response</returns>
-        public ShiftOutResponse Send(ShiftOutRequest request)
+        public async Task<ShiftOutResponse> SendAsync(ShiftOutRequest request)
         {
-            return (ShiftOutResponse) InternalSend(request);
+            return (ShiftOutResponse) await InternalSendAsync(request);
         }
 
         /// <summary>
@@ -186,9 +187,9 @@ namespace ArduinoDriver
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public ShiftInResponse Send(ShiftInRequest request)
+        public async Task<ShiftInResponse> SendAsync(ShiftInRequest request)
         {
-            return (ShiftInResponse) InternalSend(request);
+            return (ShiftInResponse) await InternalSendAsync(request);
         }
 
         /// <summary>
@@ -209,7 +210,7 @@ namespace ArduinoDriver
 
         #region Private Methods
 
-        private void Initialize(ArduinoDriverConfiguration config)
+        private Task Initialize(ArduinoDriverConfiguration config)
         {
             logger.Info("Instantiating ArduinoDriver: {0} - {1}...", config.ArduinoModel, config.PortName);
 
@@ -229,17 +230,18 @@ namespace ArduinoDriver
                 }
             }
 
-            if (!config.AutoBootstrap) InitializeWithoutAutoBootstrap();
-            else InitializeWithAutoBootstrap();
+            return config.AutoBootstrap
+                ? InitializeWithAutoBootstrapAsync()
+                : InitializeWithoutAutoBootstrapAsync();
         }
 
-        private void InitializeWithoutAutoBootstrap()
+        private async Task InitializeWithoutAutoBootstrapAsync()
         {
             // Without auto bootstrap, we just try to send a handshake request (the listener should already be
             // deployed). If that fails, we try nothing else.
             logger.Info("Initiating handshake...");
             InitializePort();
-            var handshakeResponse = ExecuteHandshake();
+            var handshakeResponse = await ExecuteHandshakeAsync();
             if (handshakeResponse == null)
             {
                 port.Close();
@@ -254,7 +256,7 @@ namespace ArduinoDriver
             }
         }
 
-        private void InitializeWithAutoBootstrap()
+        private async Task InitializeWithAutoBootstrapAsync()
         {
             var alwaysReDeployListener = alwaysRedeployListeners.Count > 500;
             HandShakeResponse handshakeResponse = null;
@@ -264,7 +266,7 @@ namespace ArduinoDriver
             {
                 logger.Info("Initiating handshake...");
                 InitializePort();
-                handshakeResponse = ExecuteHandshake();
+                handshakeResponse = await ExecuteHandshakeAsync();
                 handShakeAckReceived = handshakeResponse != null;
                 if (handShakeAckReceived)
                 {
@@ -313,7 +315,7 @@ namespace ArduinoDriver
 
             // Listener should now (always) be deployed, handshake should yield success.
             InitializePort();
-            handshakeResponse = ExecuteHandshake();
+            handshakeResponse = await ExecuteHandshakeAsync();
             if (handshakeResponse == null)
                 throw new IOException("Unable to get a handshake ACK after executing auto bootstrap on the Arduino!");  
             logger.Info("ArduinoDriver fully initialized!");      
@@ -331,14 +333,14 @@ namespace ArduinoDriver
             port.Open();
         }
 
-        private ArduinoResponse InternalSend(ArduinoRequest request)
+        private Task<ArduinoResponse> InternalSendAsync(ArduinoRequest request)
         {
-            return port.Send(request);
+            return port.SendAsync(request);
         }
 
-        private HandShakeResponse ExecuteHandshake()
+        private async Task<HandShakeResponse> ExecuteHandshakeAsync()
         {
-            var response = port.Send(new HandShakeRequest(), 1);
+            var response = await port.SendAsync(new HandShakeRequest(), 1);
             return response as HandShakeResponse;            
         }
 
