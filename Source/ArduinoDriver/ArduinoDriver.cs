@@ -42,12 +42,15 @@ namespace ArduinoDriver
         private const string ArduinoListenerHexResourceFileName =
             "ArduinoDriver.ArduinoListener.ArduinoListener.ino.{0}.hex";
 
+        private ArduinoDriver()
+        { }
+
         /// <summary>
         /// Creates a new ArduinoDriver instance. The relevant portname will be autodetected if possible.
         /// </summary>
         /// <param name="arduinoModel"></param>
         /// <param name="autoBootstrap"></param>
-        public ArduinoDriver(ArduinoModel arduinoModel, bool autoBootstrap = false)
+        public static async Task<ArduinoDriver> CreateAsync(ArduinoModel arduinoModel, bool autoBootstrap = false)
         {
             logger.Info(
                 "Instantiating ArduinoDriver (model {0}) with autoconfiguration of port name...",
@@ -68,12 +71,14 @@ namespace ArduinoDriver
                     "Unable to autoconfigure ArduinoDriver port name, since there is not exactly a single "
                     + "COM port available. Please use the ArduinoDriver with the named port constructor!");
 
-            Initialize(new ArduinoDriverConfiguration
+            var arduinoDriver = new ArduinoDriver();
+            await arduinoDriver.InitializeAsync(new ArduinoDriverConfiguration
             {
                 ArduinoModel = arduinoModel, 
                 PortName = unambiguousPortName, 
                 AutoBootstrap = autoBootstrap
             });
+            return arduinoDriver;
         }
 
         /// <summary>
@@ -81,15 +86,17 @@ namespace ArduinoDriver
         /// </summary>
         /// <param name="arduinoModel"></param>
         /// <param name="portName">The COM portname to create the ArduinoDriver instance for.</param>
-        /// <param name="autoBootStrap">Determines if an listener is automatically deployed to the Arduino if required.</param>
-        public ArduinoDriver(ArduinoModel arduinoModel, string portName, bool autoBootstrap = false)
+        /// <param name="autoBootstrap">Determines if an listener is automatically deployed to the Arduino if required.</param>
+        public static async Task<ArduinoDriver> CreateAsync(ArduinoModel arduinoModel, string portName, bool autoBootstrap = false)
         {
-            Initialize(new ArduinoDriverConfiguration
+            var arduinoDriver = new ArduinoDriver();
+            await arduinoDriver.InitializeAsync(new ArduinoDriverConfiguration
             {
                 ArduinoModel = arduinoModel,
                 PortName = portName,
                 AutoBootstrap = autoBootstrap
             });
+            return arduinoDriver;
         }
 
         /// <summary>
@@ -210,7 +217,7 @@ namespace ArduinoDriver
 
         #region Private Methods
 
-        private Task Initialize(ArduinoDriverConfiguration config)
+        private Task InitializeAsync(ArduinoDriverConfiguration config)
         {
             logger.Info("Instantiating ArduinoDriver: {0} - {1}...", config.ArduinoModel, config.PortName);
 

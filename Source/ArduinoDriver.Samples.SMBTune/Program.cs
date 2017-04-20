@@ -64,7 +64,7 @@ namespace ArduinoDriver.Samples.SMBTune
 
         private static async Task MainAsync(string[] args)
         {
-            using (var driver = new ArduinoDriver(AttachedArduino, true))
+            using (var driver = await ArduinoDriver.CreateAsync(AttachedArduino, true))
             {
                 for (var i = 0; i < melody.Length; i++)
                 {
