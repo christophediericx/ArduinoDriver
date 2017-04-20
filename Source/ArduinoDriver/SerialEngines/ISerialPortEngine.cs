@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace ArduinoDriver.SerialEngines
 {
@@ -10,7 +11,7 @@ namespace ArduinoDriver.SerialEngines
         int WriteTimeout { get; set; }
         void Open();
         void Close();
-        void Write(byte[] buffer, int offset, int count);
-        int Read(byte[] buffer, int offset, int count);
+        Task WriteAsync(byte[] buffer, int offset, int count);
+        Task<int> ReadAsync(byte[] buffer, int offset, int count);
     }
 }
