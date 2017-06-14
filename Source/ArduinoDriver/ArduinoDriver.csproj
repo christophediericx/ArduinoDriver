@@ -32,9 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ArduinoUploader, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ArduinoUploader, Version=2.4.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ArduinoUploader.2.3.0\lib\net452\ArduinoUploader.dll</HintPath>
+      <HintPath>..\packages\ArduinoUploader.2.4.1\lib\net452\ArduinoUploader.dll</HintPath>
     </Reference>
     <Reference Include="IntelHexFormatReader, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -42,11 +42,11 @@
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NLog.4.3.9\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.4.10\lib\net45\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="RJCP.SerialPortStream, Version=2.0.3.0, Culture=neutral, PublicKeyToken=5f5e7b70c6a74deb, processorArchitecture=MSIL">
+    <Reference Include="RJCP.SerialPortStream, Version=2.1.2.0, Culture=neutral, PublicKeyToken=5f5e7b70c6a74deb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SerialPortStream.2.0.3\lib\net45\RJCP.SerialPortStream.dll</HintPath>
+      <HintPath>..\packages\SerialPortStream.2.1.2\lib\net45\RJCP.SerialPortStream.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -62,11 +62,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SerialEngines\DefaultSerialPort.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="SerialEngines\ISerialPortEngine.cs" />
-    <Compile Include="SerialEngines\RJCPSerialPortStream.cs" />
     <Compile Include="SerialProtocol\AnalogReadRequest.cs" />
     <Compile Include="SerialProtocol\AnalogReadResponse.cs" />
     <Compile Include="SerialProtocol\AnalogReferenceRequest.cs" />

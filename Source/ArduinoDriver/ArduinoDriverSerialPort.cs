@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ArduinoDriver.SerialEngines;
 using ArduinoDriver.SerialProtocol;
 using NLog;
+using RJCP.IO.Ports;
 
 namespace ArduinoDriver
 {
     internal class ArduinoDriverSerialPort
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-        private readonly ISerialPortEngine serialPort;
+        private readonly SerialPortStream serialPort;
         private const int MaxSendRetries = 6;
-        private const int MaxSyncRetries = 10;
+        private const int MaxSyncRetries = 3;
 
-        internal ArduinoDriverSerialPort(ISerialPortEngine serialPortEngine)
+        internal ArduinoDriverSerialPort(SerialPortStream serialPortEngine)
         {
             serialPort = serialPortEngine;
         }
