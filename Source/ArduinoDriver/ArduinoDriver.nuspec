@@ -14,9 +14,9 @@
     <copyright></copyright>
     <tags>arduino serial communication protocol</tags>
     <dependencies>
-      <dependency id="ArduinoUploader" version="2.3.0" />
-      <dependency id="SerialPortStream" version="2.0.3" />
-	    <dependency id="Nlog" version="4.3.0" />
+      <dependency id="ArduinoUploader" version="3.1.0" />
+      <dependency id="SerialPortStream" version="2.1.2" />
+	    <dependency id="Nlog" version="4.4.10" />
     </dependencies>  	
   </metadata>
   <files>
