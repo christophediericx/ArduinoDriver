@@ -5,10 +5,15 @@ A .NET library to easily connect, drive and debug an Arduino through a simple an
 ![ArduinoDriver](https://github.com/christophediericx/ArduinoDriver/blob/master/Images/ArduinoDriver.png)
 
 ## Summary ##
-A two-line snippet can illustrate some of the library's features:
+Add two using statements to you project and the two-line snippet below can illustrate some of the library's features:
 ```csharp
-var driver = new ArduinoDriver(ArduinoModel.UnoR3, true);
-driver.Send(new ToneRequest(8, 200, 1000));
+
+        using ArduinoDriver.SerialProtocol;
+        using ArduinoUploader.Hardware;
+        
+        var driver = new ArduinoDriver.ArduinoDriver(ArduinoModel.UnoR3, true);
+        driver.Send(new ToneRequest(8, 200, 1000));
+
 ```
 
 * This creates an ArduinoDriver for a specific Arduino Model (in this case an Uno).
