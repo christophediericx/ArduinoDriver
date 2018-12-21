@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{21F7D77A-B524-4E67-B032-5AA9A37BB107}"
 EndProject
@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{ED0AB2
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArduinoDriver.Samples.BasicReadWrite", "ArduinoDriver.BasicReadWrite\ArduinoDriver.Samples.BasicReadWrite.csproj", "{C18462ED-3D50-4EF5-AD57-F57B61BC1E48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{0E5DBA42-2330-4C41-9826-146C3BBC367D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E5DBA42-2330-4C41-9826-146C3BBC367D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E5DBA42-2330-4C41-9826-146C3BBC367D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C18462ED-3D50-4EF5-AD57-F57B61BC1E48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C18462ED-3D50-4EF5-AD57-F57B61BC1E48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C18462ED-3D50-4EF5-AD57-F57B61BC1E48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C18462ED-3D50-4EF5-AD57-F57B61BC1E48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,5 +45,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{1FE32CD3-938F-40A7-B0A5-75CF0A7254D7} = {21F7D77A-B524-4E67-B032-5AA9A37BB107}
 		{0E5DBA42-2330-4C41-9826-146C3BBC367D} = {CA9C6727-9E34-4382-ABA3-2ECED485DC51}
+		{C18462ED-3D50-4EF5-AD57-F57B61BC1E48} = {CA9C6727-9E34-4382-ABA3-2ECED485DC51}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {08A91FA5-E915-4342-AF5A-7A186BECC0BC}
 	EndGlobalSection
 EndGlobal
